@@ -1,31 +1,214 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import Fuse from "fuse.js";
 
 import {
     CommandDialog,
     CommandEmpty,
     CommandGroup,
     CommandInput,
-    CommandItem,
     CommandList,
-    CommandSeparator,
 } from "@/components/ui/command";
-import { Search } from "lucide-react";
 
 import Kbd from "@/components/kbd";
 
 import { cn } from "@/lib/utils";
 import { useData } from "@/hooks/use-data-hook";
+import { Search } from "lucide-react";
+import SearchItem from "./search-item";
+import { useDebounce } from "@/hooks/use-debounce-hook";
+import SearchOff from "../icons/search-off";
+import SearchItemSkeleton from "./search-item-skeleton";
+
+interface SearchData {
+    projects_group: React.ReactNode[];
+    experiments_group: React.ReactNode[];
+    iterations_group: React.ReactNode[];
+}
 
 const SearchDialog = () => {
     console.log("SearchDialog");
     const [open, setOpen] = useState(false);
     const data = useData();
 
+    const [query, setQuery] = useState("");
+    const debounceSearch = useDebounce(query, 250);
+
+    const [searchData, setSearchData] = useState<SearchData | null>(null);
+
+    interface keyable {
+        [key: string]: any;
+    }
+
+    useEffect(() => {
+        console.log("SearchDialog useEffect");
+
+        const filterData = async () => {
+            if (!data.projects) return;
+
+            let projects_group: React.ReactNode[] = [];
+            let experiments_group: React.ReactNode[] = [];
+            let iterations_group: React.ReactNode[] = [];
+
+            let search_data: keyable[] = [];
+
+            data.projects.forEach((project) => {
+                let iterations = 0;
+                project.experiments.forEach((experiment) => {
+                    search_data.push({
+                        type: "experiment",
+                        id: experiment.id,
+                        name: experiment.name,
+                        project_id: project._id,
+                        project_title: project.title,
+                        iterations_count: experiment.iterations?.length,
+                    });
+                    iterations += experiment.iterations?.length;
+                    experiment.iterations.forEach((iteration) => {
+                        search_data.push({
+                            type: "iteration",
+                            id: iteration.id,
+                            iteration_name: iteration.iteration_name,
+                            experiment_id: experiment.id,
+                            experiment_name: experiment.name,
+                            project_id: project._id,
+                            project_title: project.title,
+                        });
+                    });
+                });
+                search_data.push({
+                    type: "project",
+                    id: project._id,
+                    title: project.title,
+                    status: project.status,
+                    experiments_count: project.experiments.length,
+                    iterations_count: iterations,
+                });
+            });
+
+            const fuseSearch = new Fuse(search_data, {
+                includeScore: true,
+                minMatchCharLength: 1,
+                threshold: 0.25,
+                keys: [
+                    "name",
+                    "title",
+                    "project_title",
+                    "status",
+                    "iteration_name",
+                ],
+            });
+
+            debounceSearch === ""
+                ? search_data.forEach((item) => {
+                      switch (item.type) {
+                          case "project":
+                              projects_group.push(
+                                  <SearchItem
+                                      key={item.id}
+                                      type="project"
+                                      data={{ [item.type]: item }}
+                                  />
+                              );
+                              break;
+                          case "experiment":
+                              experiments_group.push(
+                                  <SearchItem
+                                      key={item.id}
+                                      type="experiment"
+                                      data={{ [item.type]: item }}
+                                  />
+                              );
+                              break;
+                          case "iteration":
+                              iterations_group.push(
+                                  <SearchItem
+                                      key={item.id}
+                                      type="iteration"
+                                      data={{ [item.type]: item }}
+                                  />
+                              );
+                              break;
+                      }
+                  })
+                : fuseSearch.search(debounceSearch).forEach((results) => {
+                      switch (results.item.type) {
+                          case "project":
+                              projects_group.push(
+                                  <SearchItem
+                                      key={results.item.id}
+                                      type="project"
+                                      data={{
+                                          [results.item.type]: results.item,
+                                      }}
+                                  />
+                              );
+                              break;
+                          case "experiment":
+                              experiments_group.push(
+                                  <SearchItem
+                                      key={results.item.id}
+                                      type="experiment"
+                                      data={{
+                                          [results.item.type]: results.item,
+                                      }}
+                                  />
+                              );
+                              break;
+                          case "iteration":
+                              iterations_group.push(
+                                  <SearchItem
+                                      key={results.item.id}
+                                      type="iteration"
+                                      data={{
+                                          [results.item.type]: results.item,
+                                      }}
+                                  />
+                              );
+                              break;
+                      }
+                  });
+
+            setSearchData({
+                projects_group: projects_group.slice(
+                    0,
+                    Math.min(projects_group.length, 20)
+                ),
+                experiments_group: experiments_group.slice(
+                    0,
+                    Math.min(experiments_group.length, 20)
+                ),
+                iterations_group: iterations_group.slice(
+                    0,
+                    Math.min(iterations_group.length, 20)
+                ),
+            });
+        };
+
+        filterData();
+    }, [data, debounceSearch]);
+
+    useEffect(() => {
+        const openSearchDialog = (e: KeyboardEvent) => {
+            if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
+                e.preventDefault();
+                setOpen((open) => !open);
+            }
+        };
+        document.addEventListener("keydown", openSearchDialog);
+        return () => document.removeEventListener("keydown", openSearchDialog);
+    }, []);
+
+    const handleClose = () => {
+        setOpen(false);
+        setQuery("");
+    };
+
     return (
         <>
             <button
                 onClick={() => setOpen(true)}
-                className="mx-4 flex-grow whitespace-nowrap items-center px-2 py-1 transition text-mlops-secondary-tx rounded-lg group gap-x-2 h-[40px] max-w-[300px] group bg-[#a1a1aa25] hover:dark:bg-[#a1a1aa44] hover:bg-[#a1a1aa20] duration-300 border border-mlops-secondary-tx/25 overflow-hidden hidden sm:flex"
+                className="mx-4 flex-grow whitespace-nowrap items-center px-2 py-1 transition text-mlops-secondary-tx rounded-lg group gap-x-2 h-[40px] max-w-[300px] group bg-[#a1a1aa25] hover:dark:bg-[#a1a1aa44] hover:bg-[#a1a1aa20] duration-300 border border-mlops-secondary-tx/25 overflow-hidden hidden sm:flex hover:border-mlops-primary-tx hover:dark:border-mlops-primary-tx-dark"
             >
                 <Search className="w-5 h-5 dark:text-mlops-primary-tx-dark text-mlops-primary-tx" />
                 <p className="overflow-hidden font-medium transition duration-300 overflow-ellipsis text-md text-zinc-500 dark:text-zinc-400 group-hover:text-mlops-primary-tx dark:group-hover:text-mlops-primary-tx-dark">
@@ -37,7 +220,7 @@ const SearchDialog = () => {
             </button>
 
             <div
-                className="flex items-center w-10 h-10 rounded cursor-pointer dark:hover:bg-mlops-action-hover-bg-dark hover:bg-mlops-action-hover-bg sm:hidden"
+                className="flex items-center w-10 h-10 ml-auto mr-4 rounded cursor-pointer dark:hover:bg-mlops-action-hover-bg-dark hover:bg-mlops-action-hover-bg sm:hidden"
                 onClick={() => setOpen(true)}
             >
                 <div className={cn("p-[6px]")}>
@@ -49,31 +232,67 @@ const SearchDialog = () => {
                 </div>
             </div>
 
-            <CommandDialog open={open} onOpenChange={setOpen}>
+            <CommandDialog
+                open={open}
+                onOpenChange={handleClose}
+                className="lg:max-w-[60vw] md:max-w-[80vw] sm:max-w-[90vw] max-w-[95vw] rounded-md"
+            >
                 <CommandInput
                     placeholder="Search database ..."
-                    className="overflow-hidden overflow-ellipsis"
+                    value={query}
+                    onValueChange={(value) => setQuery(value)}
+                    disabled={!searchData}
                 />
                 <CommandList>
-                    <CommandEmpty>No results found.</CommandEmpty>
-                    <CommandGroup heading="Projects">
-                        {data.projects.map((project) => (
-                            <CommandItem key={project._id}>
-                                {project.title}
-                            </CommandItem>
-                        ))}
-                    </CommandGroup>
-                    <CommandSeparator />
-                    <CommandGroup heading="Experiments">
-                        {data.projects.map((project) => {
-                            return project.experiments.map((experiment) => (
-                                <CommandItem key={experiment.id}>
-                                    {experiment.name}
-                                </CommandItem>
-                            ));
-                        })}
-                    </CommandGroup>
+                    <CommandEmpty className="flex flex-col items-center p-8">
+                        <SearchOff className="w-16 h-16 mb-3" />
+                        No results found based on query.
+                    </CommandEmpty>
+                    {!searchData && (
+                        <CommandGroup heading="Loading ...">
+                            {[...Array(10).keys()].map((_, id) => (
+                                <SearchItemSkeleton key={id} />
+                            ))}
+                        </CommandGroup>
+                    )}
+
+                    {searchData && searchData.projects_group.length > 0 && (
+                        <>
+                            <CommandGroup heading="Projects">
+                                {searchData.projects_group}
+                            </CommandGroup>
+                        </>
+                    )}
+                    {searchData && searchData.experiments_group.length > 0 && (
+                        <>
+                            <CommandGroup heading="Experiments">
+                                {searchData.experiments_group}
+                            </CommandGroup>
+                        </>
+                    )}
+                    {searchData && searchData.iterations_group.length > 0 && (
+                        <>
+                            <CommandGroup heading="Iterations">
+                                {searchData.iterations_group}
+                            </CommandGroup>
+                        </>
+                    )}
                 </CommandList>
+                <div className="border-t border-gray-300 dark:border-gray-700" />
+                <div className="flex items-center justify-end px-3 py-2">
+                    <div className="flex items-center pr-2 border-r-1">
+                        <span className="mr-2 text-sm">Jump to</span>
+                        <Kbd>
+                            <span className="text-xs">↵</span>
+                        </Kbd>
+                    </div>
+                    <div className="flex items-center ml-2">
+                        <span className="mr-2 text-sm">Close</span>
+                        <Kbd>
+                            <span className="text-xs">ESC</span>
+                        </Kbd>
+                    </div>
+                </div>
             </CommandDialog>
         </>
     );

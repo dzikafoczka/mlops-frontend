@@ -1,4 +1,4 @@
-import { ModeToggle } from "@/components/ModeToggle";
+import { ModeToggle } from "@/components/mode-toggle";
 import { PanelLeftClose, PanelRightClose } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
 
@@ -63,6 +63,9 @@ const NavigationTopbar = () => {
         const onKeyDown = (event: KeyboardEvent) => {
             if (event.key === "[") {
                 event.preventDefault();
+                if (event.repeat) {
+                    return;
+                }
 
                 let param: string;
                 if (window.innerWidth <= breakpoints["sm"]) {
@@ -110,14 +113,8 @@ const NavigationTopbar = () => {
 
     return (
         <>
-            <header className="flex items-center h-[56px] bg-mlops-nav-bg dark:bg-mlops-nav-bg-dark w-full shadow-md">
+            <header className="flex items-center h-[56px] fixed z-50 bg-mlops-nav-bg dark:bg-mlops-nav-bg-dark w-full shadow-md">
                 <div
-                    // className={cn(
-                    //     "lg:w-[280px] w-[64px] bg-mlops-nav-bg dark:bg-mlops-nav-bg-dark",
-                    //     isCollapsedLg && "lg:w-[64px]",
-                    //     isExpandedMd &&
-                    //         "sm:w-[280px] lg:border-none sm:border-r sm:border-gray-300 sm:dark:border-gray-700 sm:h-[40px]"
-                    // )}
                     className={cn(
                         "lg:w-[280px] w-[64px] bg-mlops-nav-bg dark:bg-mlops-nav-bg-dark lg:border-r lg:border-gray-300 lg:dark:border-gray-700 lg:h-[40px]",
                         isCollapsedLg && "lg:w-[64px] lg:border-none",
@@ -126,14 +123,8 @@ const NavigationTopbar = () => {
                     )}
                 >
                     <a
-                        // className={cn(
-                        //     "flex items-center justify-center lg:justify-normal w-full lg:px-3 px-1 my-[10px] h-9",
-                        //     isCollapsedLg && "lg:justify-center",
-                        //     isExpandedMd &&
-                        //         "sm:justify-normal sm:px-3 sm:my-[2px]"
-                        // )}
                         className={cn(
-                            "flex items-center justify-center lg:justify-normal w-full lg:px-3 px-1 my-[10px] h-9 lg:my-[2px]",
+                            "flex flex-shrink-0 flex-grow-0 items-center justify-center lg:justify-normal w-full lg:px-3 px-1 my-[10px] h-9 lg:my-[2px]",
                             isCollapsedLg && "lg:justify-center",
                             isExpandedMd &&
                                 "sm:justify-normal sm:px-3 sm:my-[2px]"
@@ -154,22 +145,17 @@ const NavigationTopbar = () => {
                 </div>
                 <TooltipProvider>
                     <Tooltip delayDuration={100}>
-                        <TooltipTrigger>
+                        <TooltipTrigger className="ml-[-4px]">
                             <div
-                                // className={cn(
-                                //     "flex items-center w-10 h-10 ml-1 rounded cursor-pointer dark:hover:bg-mlops-action-hover-bg-dark hover:bg-mlops-action-hover-bg",
-                                //     isExpandedMd &&
-                                //         "sm:absolute sm:block top-[8px] left-[230px] lg:static"
-                                // )}
                                 className={cn(
-                                    "flex items-center w-10 h-10 ml-1 rounded cursor-pointer dark:hover:bg-mlops-action-hover-bg-dark hover:bg-mlops-action-hover-bg lg:absolute sm:static static sm:top-[8px] sm:left-[230px]",
+                                    "flex items-center w-10 h-10 ml-1 rounded cursor-pointer dark:hover:bg-mlops-action-hover-bg-dark hover:bg-mlops-action-hover-bg lg:absolute sm:static static sm:top-[8px] sm:left-[230px] transition duration-300",
                                     isCollapsedLg && "lg:static",
                                     isExpandedMd && "sm:absolute"
                                 )}
                             >
                                 <div
                                     className={cn(
-                                        "p-[6px] lg:block hidden",
+                                        "p-[6px] lg:block hidden transition duration-300",
                                         isCollapsedLg && "lg:hidden",
                                         isExpandedMd && "sm:block"
                                     )}
@@ -183,7 +169,7 @@ const NavigationTopbar = () => {
                                 >
                                     <PanelLeftClose
                                         className={cn(
-                                            "hidden w-7 h-7 text-mlops-primary-tx dark:text-mlops-primary-tx-dark lg:block",
+                                            "hidden w-7 h-7 text-mlops-primary-tx dark:text-mlops-primary-tx-dark lg:block transition duration-300",
                                             isCollapsedLg && "lg:hidden",
                                             isExpandedMd && "sm:block"
                                         )}
@@ -191,7 +177,7 @@ const NavigationTopbar = () => {
                                 </div>
                                 <div
                                     className={cn(
-                                        "p-[6px] lg:hidden sm:block hidden",
+                                        "p-[6px] lg:hidden sm:block hidden transition duration-300",
                                         isCollapsedLg && "lg:block",
                                         isExpandedMd && "sm:hidden"
                                     )}
@@ -205,7 +191,7 @@ const NavigationTopbar = () => {
                                 >
                                     <PanelRightClose
                                         className={cn(
-                                            "sm:block hidden w-7 h-7 text-mlops-primary-tx dark:text-mlops-primary-tx-dark lg:hidden",
+                                            "sm:block hidden w-7 h-7 text-mlops-primary-tx dark:text-mlops-primary-tx-dark lg:hidden transition duration-300",
                                             isCollapsedLg && "lg:block",
                                             isExpandedMd && "sm:hidden"
                                         )}
@@ -265,8 +251,11 @@ const NavigationTopbar = () => {
                         </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
-                <SearchDialog />
-                <ModeToggle />
+
+                <div className="flex items-center justify-between flex-grow mr-2">
+                    <SearchDialog />
+                    <ModeToggle />
+                </div>
             </header>
         </>
     );

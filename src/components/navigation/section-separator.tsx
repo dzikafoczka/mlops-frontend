@@ -1,8 +1,6 @@
-import React from 'react'
-
 const SectionSeparator = () => {
   return (
-    <div className="border-t border-gray-300 dark:border-gray-700" />
+    <div className="flex-shrink-0 border-t border-gray-300 dark:border-gray-700" />
   )
 }
 

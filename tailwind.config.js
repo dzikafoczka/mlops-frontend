@@ -39,6 +39,13 @@ module.exports = {
                 "mlops-nav-bg-dark": "#111827",
                 "mlops-violet": "#4154f1",
                 "mlops-gray": "#899bbd",
+                "mlops-not-started": "#3b7ddd",
+                "mlops-in-progress": "#fcb92c",
+                "mlops-completed": "#1cbb8c",
+                "mlops-archived": "#ced4da",
+                "mlops-tabs-hover": "#e4e4e7a6",
+                "mlops-primary": "#0d6efd",
+                "mlops-danger": "#e74c3c",
                 border: "hsl(var(--border))",
                 input: "hsl(var(--input))",
                 ring: "hsl(var(--ring))",
@@ -79,6 +86,7 @@ module.exports = {
             },
             fontFamily: {
                 logo: ["Orbitron", "sans-serif"],
+                ellipsis: ["font-ellipsis", "sans-serif"],
             },
             borderRadius: {
                 lg: "var(--radius)",

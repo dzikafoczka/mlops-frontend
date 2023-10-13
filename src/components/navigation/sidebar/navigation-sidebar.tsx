@@ -18,9 +18,9 @@ const NavigationSidebar = () => {
     return (
         <div
             className={cn(
-                "hidden sm:flex flex-none flex-col items-center sm:w-[64px] lg:w-[280px] h-[calc(100vh-56px)] overflow-hidden dark:bg-mlops-nav-bg-dark bg-white shadow-md",
+                "hidden sm:flex fixed z-50 flex-none flex-col items-center sm:w-[64px] lg:w-[280px] h-[calc(100vh-56px)] overflow-hidden dark:bg-mlops-nav-bg-dark bg-white shadow-md",
                 isCollapsedLg && "lg:w-[64px]",
-                isExpandedMd && "sm:w-[280px] sm:absolute lg:static"
+                isExpandedMd && "sm:w-[280px]"
             )}
         >
             <div className="w-full px-2">

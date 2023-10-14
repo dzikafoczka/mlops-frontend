@@ -1,6 +1,12 @@
-import { useEffect, useState } from "react";
-
 import Fuse from "fuse.js";
+
+import { useEffect, useState } from "react";
+import { useData } from "@/hooks/use-data-hook";
+
+import { cn } from "@/lib/utils";
+
+import { Search } from "lucide-react";
+import { SearchOff } from "@/components/icons";
 
 import {
     CommandDialog,
@@ -9,16 +15,10 @@ import {
     CommandInput,
     CommandList,
 } from "@/components/ui/command";
-
 import Kbd from "@/components/kbd";
-
-import { cn } from "@/lib/utils";
-import { useData } from "@/hooks/use-data-hook";
-import { Search } from "lucide-react";
-import SearchItem from "./search-item";
+import SearchItem from "@/components/search/search-item";
 import { useDebounce } from "@/hooks/use-debounce-hook";
-import SearchOff from "../icons/search-off";
-import SearchItemSkeleton from "./search-item-skeleton";
+import SearchItemSkeleton from "@/components/search/search-item-skeleton";
 
 interface SearchData {
     projects_group: React.ReactNode[];
@@ -27,7 +27,6 @@ interface SearchData {
 }
 
 const SearchDialog = () => {
-    console.log("SearchDialog");
     const [open, setOpen] = useState(false);
     const data = useData();
 
@@ -41,8 +40,6 @@ const SearchDialog = () => {
     }
 
     useEffect(() => {
-        console.log("SearchDialog useEffect");
-
         const filterData = async () => {
             if (!data.projects) return;
 

@@ -1,14 +1,17 @@
-import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
+import { useState } from "react";
 
+import { cn } from "@/lib/utils";
+
+import { Loading } from "@/components/icons";
+
+import { ContextMenu, ContextMenuTrigger } from "@/components/ui/context-menu";
 import ProjectCardHeader from "./project-card/project-card-header";
 import ProjectCardStatus from "./project-card/project-card-status";
 import ProjectCardDescription from "./project-card/project-card-description";
 import ProjectCardInfo from "./project-card/project-card-info";
 import ProjectContextMenuContent from "./project-card/project-context-menu-content";
+
 import { Project } from "@/types/project";
-import { useState } from "react";
-import Loading from "../icons/loading";
-import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
     project: Project;
@@ -53,7 +56,10 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                         )}
                     </div>
                 </ContextMenuTrigger>
-                <ProjectContextMenuContent project={project} setLoading={setIsLoading} />
+                <ProjectContextMenuContent
+                    project={project}
+                    setLoading={setIsLoading}
+                />
             </ContextMenu>
         </div>
     );

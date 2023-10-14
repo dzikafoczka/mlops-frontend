@@ -1,6 +1,11 @@
-import { ModeToggle } from "@/components/mode-toggle";
-import { PanelLeftClose, PanelRightClose } from "lucide-react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+
+import { cn } from "@/lib/utils";
+
+import { breakpoints } from "@/config/breakpoints";
+
+import { PanelLeftClose, PanelRightClose } from "lucide-react";
 
 import {
     Tooltip,
@@ -8,17 +13,13 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-
+import { ModeToggle } from "@/components/mode-toggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import MobileNavigation from "@/components/navigation/mobile/mobile-navigation";
-import { breakpoints } from "@/config/breakpoints";
-import { cn } from "@/lib/utils";
-import { useEffect } from "react";
 import SearchDialog from "@/components/search/search-dialog";
 import Kbd from "@/components/kbd";
 
 const NavigationTopbar = () => {
-    console.log("NavigationTopbar");
 
     const [searchParams, setSearchParams] = useSearchParams({
         ne: "default",

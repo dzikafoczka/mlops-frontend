@@ -1,11 +1,16 @@
-import Trending from "@/components/icons/trending";
-import { backendConfig } from "@/config/backend";
+import axios from "axios";
+
 import { useData } from "@/hooks/use-data-hook";
+
 import { createToast } from "@/lib/toast";
+
+import { backendConfig } from "@/config/backend";
+
+import { Check } from "lucide-react";
+import { Trending } from "@/components/icons";
+
 import { Project } from "@/types/project";
 import { ProjectQuickAction, ProjectStatus } from "@/types/types";
-import axios from "axios";
-import { Check } from "lucide-react";
 
 const ProjectStatusMenuItem = ({
     project,
@@ -49,7 +54,11 @@ const ProjectStatusMenuItem = ({
                 </div>
             </ItemType.Trigger>
             <ItemType.MenuSubContent>
-                <ItemType.MenuItem onClick={() => handleProjectStatusUpdate(ProjectStatus.NOT_STARTED)}>
+                <ItemType.MenuItem
+                    onClick={() =>
+                        handleProjectStatusUpdate(ProjectStatus.NOT_STARTED)
+                    }
+                >
                     <div className="flex items-center justify-between w-full">
                         Not started{" "}
                         {project.status === ProjectStatus.NOT_STARTED && (
@@ -57,7 +66,11 @@ const ProjectStatusMenuItem = ({
                         )}
                     </div>
                 </ItemType.MenuItem>
-                <ItemType.MenuItem onClick={() => handleProjectStatusUpdate(ProjectStatus.IN_PROGRESS)}>
+                <ItemType.MenuItem
+                    onClick={() =>
+                        handleProjectStatusUpdate(ProjectStatus.IN_PROGRESS)
+                    }
+                >
                     <div className="flex items-center justify-between w-full">
                         In progress{" "}
                         {project.status === ProjectStatus.IN_PROGRESS && (
@@ -65,7 +78,11 @@ const ProjectStatusMenuItem = ({
                         )}
                     </div>
                 </ItemType.MenuItem>
-                <ItemType.MenuItem onClick={() => handleProjectStatusUpdate(ProjectStatus.FINISHED)}>
+                <ItemType.MenuItem
+                    onClick={() =>
+                        handleProjectStatusUpdate(ProjectStatus.FINISHED)
+                    }
+                >
                     <div className="flex items-center justify-between w-full">
                         Finished{" "}
                         {project.status === ProjectStatus.FINISHED && (

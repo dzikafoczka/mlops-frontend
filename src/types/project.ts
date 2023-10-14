@@ -10,4 +10,4 @@ export interface Project {
     created_at: Date;
     updated_at: Date;
     experiments: Experiment[];
-};
+}

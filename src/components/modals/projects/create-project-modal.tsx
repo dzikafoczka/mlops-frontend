@@ -1,10 +1,21 @@
 import axios from "axios";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useModal } from "@/hooks/use-modal-hook";
+import { useData } from "@/hooks/use-data-hook";
+import { useForm } from "react-hook-form";
+
+import { createToast } from "@/lib/toast";
+import { toast } from "react-toastify";
+
+import { cn } from "@/lib/utils";
 
 import { backendConfig } from "@/config/backend";
 
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { X } from "lucide-react";
+import { Loading } from "@/components/icons";
+
 import {
     Dialog,
     DialogContent,
@@ -12,10 +23,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-
 import { DialogClose } from "@radix-ui/react-dialog";
-
-import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -25,16 +33,10 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { X } from "lucide-react";
 import SectionSeparator from "@/components/navigation/section-separator";
-import { useModal } from "@/hooks/use-modal-hook";
-import { useData } from "@/hooks/use-data-hook";
-import Loading from "@/components/icons/loading";
-import { cn } from "@/lib/utils";
-import { createToast } from "@/lib/toast";
-import { toast } from "react-toastify";
 
 const formSchema = z.object({
     title: z
@@ -54,7 +56,6 @@ const formSchema = z.object({
 });
 
 const CreateProjectModal = () => {
-    console.log("CreateProjectModal");
     const { type, isOpen, onClose } = useModal();
 
     const data = useData();
@@ -93,7 +94,6 @@ const CreateProjectModal = () => {
                     type: "error",
                 });
             });
-        console.log("onSubmit");
     };
 
     const handleClose = () => {

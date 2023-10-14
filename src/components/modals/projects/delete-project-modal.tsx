@@ -1,6 +1,18 @@
 import axios from "axios";
 
+import { useState } from "react";
+import { useData } from "@/hooks/use-data-hook";
+import { useModal } from "@/hooks/use-modal-hook";
+
+import { createToast } from "@/lib/toast";
+import { toast } from "react-toastify";
+
+import { cn } from "@/lib/utils";
+
 import { backendConfig } from "@/config/backend";
+
+import { X } from "lucide-react";
+import { Loading, Warning } from "@/components/icons";
 
 import {
     Dialog,
@@ -9,24 +21,11 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-
 import { DialogClose } from "@radix-ui/react-dialog";
-
 import { Button } from "@/components/ui/button";
-
-import { X } from "lucide-react";
 import SectionSeparator from "@/components/navigation/section-separator";
-import { useModal } from "@/hooks/use-modal-hook";
-import { useData } from "@/hooks/use-data-hook";
-import Loading from "@/components/icons/loading";
-import { cn } from "@/lib/utils";
-import { createToast } from "@/lib/toast";
-import { useState } from "react";
-import Warning from "@/components/icons/warning";
-import { toast } from "react-toastify";
 
 const DeleteProjectModal = () => {
-    console.log("DeleteProjectModal");
     const { type, isOpen, onClose, data } = useModal();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -39,11 +38,11 @@ const DeleteProjectModal = () => {
 
     const handleDeleteProject = async () => {
         if (!data.project) return;
-        
+
         setIsLoading(true);
         await axios
             .delete(`${url}:${port}/projects/${data.project?._id}`)
-            .then((res) => {
+            .then(() => {
                 dataStore.deleteProject(data.project?._id as string);
                 onClose();
                 createToast({
@@ -60,8 +59,7 @@ const DeleteProjectModal = () => {
                 });
             });
         setIsLoading(false);
-        console.log("handleDeleteProject");
-    }
+    };
 
     const handleOnEscapeKeyDown = (e: any) => {
         if (isLoading) {

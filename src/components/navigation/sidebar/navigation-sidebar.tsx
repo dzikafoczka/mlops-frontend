@@ -1,12 +1,13 @@
+import { useSearchParams } from "react-router-dom";
+
+import { cn } from "@/lib/utils";
+
 import { mainNavigationItems, helpNavigationItems } from "@/config/navigation";
 
-import { useSearchParams } from "react-router-dom";
-import { cn } from "@/lib/utils";
 import SidebarNavItem from "@/components/navigation/sidebar/sidebar-nav-item";
 import SectionSeparator from "@/components/navigation/section-separator";
 
 const NavigationSidebar = () => {
-    console.log("NavigationSidebar");
 
     const [searchParams, setSearchParams] = useSearchParams({
         ne: "default",

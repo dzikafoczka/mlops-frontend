@@ -1,6 +1,6 @@
-import Archive from "@/components/icons/archive";
-import Delete from "@/components/icons/delete";
-import Unarchive from "@/components/icons/unarchive";
+import { MoreVertical } from "lucide-react";
+import { Archive, Delete, Unarchive, Edit } from "@/components/icons";
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,21 +11,19 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Project } from "@/types/project";
 import ModalProjectMenuItem from "../project-menu/modal-project-menu-item";
-import Edit from "@/components/icons/edit";
 import PinUnpinProjectMenuItem from "../project-menu/pin-unpin-project-menu-item";
 import CopyProjectIdMenuItem from "../project-menu/copy-project-id-menu-item";
 import ProjectStatusMenuItem from "../project-menu/project-status-menu-item";
-import { MoreVertical } from "lucide-react";
 import ProjectMenuHeader from "../project-menu/project-menu-header";
+
+import { Project } from "@/types/project";
 
 interface ProjectCardProps {
     project: Project;

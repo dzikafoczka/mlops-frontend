@@ -1,7 +1,13 @@
-import { Project } from "@/types/project";
 import { create } from "zustand";
 
-export type ModalType = "createProject" | "editProject" | "deleteProject" | "archiveProject" | "restoreProject";
+import { Project } from "@/types/project";
+
+export type ModalType =
+    | "createProject"
+    | "editProject"
+    | "deleteProject"
+    | "archiveProject"
+    | "restoreProject";
 
 interface ModalData {
     project?: Project;
@@ -20,5 +26,5 @@ export const useModal = create<ModalStore>((set) => ({
     data: {},
     isOpen: false,
     onOpen: (type, data) => set({ isOpen: true, type, data }),
-    onClose: () => set({ type: null, isOpen: false, data: {} })
+    onClose: () => set({ type: null, isOpen: false, data: {} }),
 }));

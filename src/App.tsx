@@ -1,34 +1,23 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import ModalProvider from "./components/providers/modal-provider";
+
+import { ErrorBoundary } from "react-error-boundary";
+import { fallbackRender } from "@/components/error-boundary/fallbackRenderer";
 
 import MainLayout from "@/layouts/main/layout";
 
-import Projects from "@/pages/Projects";
-import { useEffect } from "react";
-import { useData } from "@/hooks/use-data-hook";
-import axios from "axios";
-import { backendConfig } from "@/config/backend";
-import ModalProvider from "./components/providers/modal-provider";
-import Toast from "./components/toast";
-import { Toaster } from "./components/ui/toaster";
-import { ErrorBoundary, FallbackProps } from "react-error-boundary";
+import Projects from "@/pages/projects/Projects";
 
-const fallbackRender = ({ error, resetErrorBoundary }: FallbackProps) => {
-    return <p onClick={resetErrorBoundary}>{error.message}</p>;
-};
+import Toast from "@/components/toast";
+import { Toaster } from "@/components/ui/toaster";
 
 function App() {
-    console.log("App");
-
     return (
         <BrowserRouter>
             <ThemeProvider>
                 <ModalProvider>
-                    <ErrorBoundary
-                        fallbackRender={fallbackRender}
-                        onError={() => console.log("error")}
-                    >
+                    <ErrorBoundary fallbackRender={fallbackRender}>
                         <MainLayout>
                             <Routes>
                                 <Route

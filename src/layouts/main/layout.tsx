@@ -1,29 +1,30 @@
-import NavigationSidebar from "@/components/navigation/sidebar/navigation-sidebar";
-import NavigationTopbar from "@/components/navigation/topbar/navigation-topbar";
-import { backendConfig } from "@/config/backend";
-import { useData } from "@/hooks/use-data-hook";
-import { sleep } from "@/lib/helpers";
-import { cn } from "@/lib/utils";
-import { Skeleton } from "@nextui-org/react";
 import axios from "axios";
+
 import React, { useEffect } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { useSearchParams } from "react-router-dom";
+import { useData } from "@/hooks/use-data-hook";
+
+import { cn } from "@/lib/utils";
+
+import { backendConfig } from "@/config/backend";
+
+import NavigationSidebar from "@/components/navigation/sidebar/navigation-sidebar";
+import NavigationTopbar from "@/components/navigation/topbar/navigation-topbar";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
-    console.log("MainLayout");
 
     const { showBoundary } = useErrorBoundary();
 
     /**
-     * Import backendConfig url and port for api requests
+     * Extract backendConfig url and port for api requests
      */
     const { url, port } = backendConfig;
 
     const data = useData();
 
     /**
-     * Fetch projects from backend
+     * Fetch projects data from backend
      */
     useEffect(() => {
         let abortController = new AbortController();
@@ -31,14 +32,12 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
         (async () => {
             try {
-                await sleep(10000);
+                // await sleep(3000);
                 const response = await axios.get(`${url}:${port}/projects`, {
                     signal: signal,
                 });
                 data.setProjectsData(response.data);
-                // data.setProjectsData([]);
             } catch (error: any) {
-                console.log(error);
                 if (!abortController.signal.aborted) {
                     showBoundary(error);
                 }
@@ -48,7 +47,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
         return () => abortController.abort();
     }, []);
 
-    const [searchParams, setSearchParams] = useSearchParams({
+    const [searchParams] = useSearchParams({
         ne: "default",
     });
 

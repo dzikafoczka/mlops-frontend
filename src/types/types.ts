@@ -39,5 +39,5 @@ export interface ProjectQuickAction {
 export enum ProjectStatus {
     FINISHED = "completed",
     IN_PROGRESS = "in_progress",
-    NOT_STARTED = "not_started"
+    NOT_STARTED = "not_started",
 }

@@ -1,14 +1,21 @@
-import Pin from "@/components/icons/pin";
-import PinFilled from "@/components/icons/pin-filled";
-import { backendConfig } from "@/config/backend";
-import { useData } from "@/hooks/use-data-hook";
-import { createToast } from "@/lib/toast";
-import { Project } from "@/types/project";
-import { ProjectQuickAction } from "@/types/types";
 import axios from "axios";
 
-const PinUnpinProjectMenuItem = ({ project, setLoading, ItemType }: ProjectQuickAction) => {
+import { useData } from "@/hooks/use-data-hook";
 
+import { createToast } from "@/lib/toast";
+
+import { backendConfig } from "@/config/backend";
+
+import { Pin, PinFilled } from "@/components/icons";
+
+import { Project } from "@/types/project";
+import { ProjectQuickAction } from "@/types/types";
+
+const PinUnpinProjectMenuItem = ({
+    project,
+    setLoading,
+    ItemType,
+}: ProjectQuickAction) => {
     const { url, port } = backendConfig;
 
     const data = useData();
@@ -38,9 +45,7 @@ const PinUnpinProjectMenuItem = ({ project, setLoading, ItemType }: ProjectQuick
     return (
         <>
             {project.pinned ? (
-                <ItemType
-                    onClick={() => handlePinUnpinProject("unpin")}
-                >
+                <ItemType onClick={() => handlePinUnpinProject("unpin")}>
                     <div className="flex items-center">
                         <PinFilled className="flex-shrink-0 w-5 h-5 mr-2 dark:text-[#D5D5D5]" />
                         Unpin project

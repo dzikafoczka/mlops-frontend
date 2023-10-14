@@ -1,9 +1,10 @@
+import moment from "moment-timezone";
+
 import { CalendarDays } from "lucide-react";
 import { AiOutlineExperiment } from "react-icons/ai";
 import { GoIterations } from "react-icons/go";
 import { MdUpdate } from "react-icons/md";
 
-import moment from "moment-timezone";
 import { Experiment } from "@/types/experiment";
 
 interface ProjectCardInfoProps {

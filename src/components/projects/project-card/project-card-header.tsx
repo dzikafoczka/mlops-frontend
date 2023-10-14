@@ -1,6 +1,8 @@
-import { Project } from "@/types/project";
+import { PinFilled } from "@/components/icons";
+
 import ProjectCardHeaderActions from "./project-card-header/project-card-header-actions";
-import PinFilled from "@/components/icons/pin-filled";
+
+import { Project } from "@/types/project";
 
 interface ProjectCardProps {
     project: Project;
@@ -16,7 +18,10 @@ const ProjectCardHeader = ({ project, setLoading }: ProjectCardProps) => {
                 )}{" "}
                 {project.title}
             </span>
-            <ProjectCardHeaderActions project={project} setLoading={setLoading}/>
+            <ProjectCardHeaderActions
+                project={project}
+                setLoading={setLoading}
+            />
         </div>
     );
 };

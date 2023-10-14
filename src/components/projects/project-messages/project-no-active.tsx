@@ -1,7 +1,9 @@
-import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-hook";
+
 import { Plus } from "lucide-react";
 import { VscFolderActive } from "react-icons/vsc";
+
+import { Button } from "@/components/ui/button";
 
 const ProjectNoActive = () => {
     const { onOpen } = useModal();

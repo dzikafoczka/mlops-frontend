@@ -1,5 +1,6 @@
-import { Badge } from "@/components/ui/badge";
 import { projectStatusesMap } from "@/config/maping";
+
+import { Badge } from "@/components/ui/badge";
 
 interface ProjectCardStatusProps {
     status: "not_started" | "in_progress" | "completed";
@@ -13,7 +14,11 @@ const ProjectCardStatus = ({ status, archived }: ProjectCardStatusProps) => {
                 {projectStatusesMap[status]}
             </Badge>
             {archived && (
-                <Badge variant="archived" title="Project is archived" className="ml-2">
+                <Badge
+                    variant="archived"
+                    title="Project is archived"
+                    className="ml-2"
+                >
                     Archived
                 </Badge>
             )}

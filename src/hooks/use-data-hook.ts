@@ -1,5 +1,6 @@
-import { Project } from "@/types/project";
 import { create } from "zustand";
+
+import { Project } from "@/types/project";
 
 interface DataStore {
     projects: Project[] | null;

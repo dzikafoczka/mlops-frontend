@@ -1,24 +1,18 @@
-import { Skeleton } from "@/components/ui/skeleton";
-import { ProjectStatus } from "@/types/types";
 import moment from "moment-timezone";
-import { LoremIpsum } from "lorem-ipsum";
+
 import { useSearchParams } from "react-router-dom";
+
+import { lorem, numberBetween } from "@/lib/utils";
+
+import { Skeleton } from "@/components/ui/skeleton";
+
+import { ProjectStatus } from "@/types/types";
 
 const ProjectCardSkeleton = () => {
     const [searchParams, setSearchParams] = useSearchParams();
 
     const isArchived = searchParams.get("archived") === "true";
 
-    const numberBetween = (min: number, max: number) => {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    };
-
-    const lorem = new LoremIpsum({
-        wordsPerSentence: {
-            max: 6,
-            min: 2,
-        },
-    });
 
     const statuses = [
         ProjectStatus.NOT_STARTED,

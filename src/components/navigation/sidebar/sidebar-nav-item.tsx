@@ -1,4 +1,4 @@
-import React from "react";
+import { cn } from "@/lib/utils";
 
 import {
     Tooltip,
@@ -6,7 +6,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
 
 interface SidebarNavItemProps {
     path: string;

@@ -1,8 +1,13 @@
-import Copy from "@/components/icons/copy";
 import { createToast } from "@/lib/toast";
+
+import { Copy } from "@/components/icons";
+
 import { ProjectQuickAction } from "@/types/types";
 
-const CopyProjectIdMenuItem = ({ project, ItemType }: Omit<ProjectQuickAction, "setLoading">) => {
+const CopyProjectIdMenuItem = ({
+    project,
+    ItemType,
+}: Omit<ProjectQuickAction, "setLoading">) => {
     return (
         <ItemType
             onClick={() => {

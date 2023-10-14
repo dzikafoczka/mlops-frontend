@@ -1,6 +1,5 @@
-import Archive from "@/components/icons/archive";
-import Delete from "@/components/icons/delete";
-import Unarchive from "@/components/icons/unarchive";
+import { Archive, Delete, Unarchive, Edit } from "@/components/icons";
+
 import {
     ContextMenuContent,
     ContextMenuItem,
@@ -9,13 +8,13 @@ import {
     ContextMenuSubContent,
     ContextMenuSubTrigger,
 } from "@/components/ui/context-menu";
-import { Project } from "@/types/project";
 import ModalProjectMenuItem from "./project-menu/modal-project-menu-item";
-import Edit from "@/components/icons/edit";
 import PinUnpinProjectMenuItem from "./project-menu/pin-unpin-project-menu-item";
 import CopyProjectIdMenuItem from "./project-menu/copy-project-id-menu-item";
 import ProjectStatusMenuItem from "./project-menu/project-status-menu-item";
 import ProjectMenuHeader from "./project-menu/project-menu-header";
+
+import { Project } from "@/types/project";
 
 interface ProjectCardProps {
     project: Project;

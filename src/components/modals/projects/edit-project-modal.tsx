@@ -1,10 +1,22 @@
 import axios from "axios";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useEffect, useMemo } from "react";
+import { useData } from "@/hooks/use-data-hook";
+import { useModal } from "@/hooks/use-modal-hook";
+import { useForm } from "react-hook-form";
+
+import { toast } from "react-toastify";
+import { createToast } from "@/lib/toast";
+
+import { cn } from "@/lib/utils";
 
 import { backendConfig } from "@/config/backend";
 
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { X } from "lucide-react";
+import { Loading } from "@/components/icons";
+
 import {
     Dialog,
     DialogContent,
@@ -12,9 +24,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-
 import { DialogClose } from "@radix-ui/react-dialog";
-
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -27,13 +37,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { X } from "lucide-react";
 import SectionSeparator from "@/components/navigation/section-separator";
-import { useModal } from "@/hooks/use-modal-hook";
-import { useData } from "@/hooks/use-data-hook";
-import Loading from "@/components/icons/loading";
-import { cn } from "@/lib/utils";
-import { useEffect, useMemo } from "react";
 import {
     Select,
     SelectContent,
@@ -41,8 +45,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { toast } from "react-toastify";
-import { createToast } from "@/lib/toast";
+
 import { Project } from "@/types/project";
 
 const formSchema = z.object({
@@ -64,7 +67,6 @@ const formSchema = z.object({
 });
 
 const EditProjectModal = () => {
-    console.log("EditProjectModal");
     const { type, isOpen, onClose, data } = useModal();
 
     const dataStore = useData();
@@ -123,8 +125,6 @@ const EditProjectModal = () => {
                     type: "error",
                 });
             });
-
-        console.log("onSubmit");
     };
 
     const handleClose = () => {
@@ -233,18 +233,21 @@ const EditProjectModal = () => {
                                         </FormControl>
                                         <SelectContent>
                                             <SelectItem
+                                                className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                                                 key="not_started"
                                                 value="not_started"
                                             >
                                                 Not started
                                             </SelectItem>
                                             <SelectItem
+                                                className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                                                 key="in_progress"
                                                 value="in_progress"
                                             >
                                                 In progress
                                             </SelectItem>
                                             <SelectItem
+                                                className="hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                                                 key="completed"
                                                 value="completed"
                                             >

@@ -1,12 +1,13 @@
-import { CommandItem } from "../ui/command";
-import { Badge } from "../ui/badge";
-import { VscProject } from "react-icons/vsc";
-
 import { projectStatusesMap } from "@/config/maping";
 
-import { ProjectData, ExperimentData, IterationData } from "@/types/types";
 import { AiOutlineExperiment } from "react-icons/ai";
 import { GoIterations } from "react-icons/go";
+import { VscProject } from "react-icons/vsc";
+
+import { CommandItem } from "@/components/ui/command";
+import { Badge } from "@/components/ui/badge";
+
+import { ProjectData, ExperimentData, IterationData } from "@/types/types";
 
 interface SearchItemData {
     project?: ProjectData;

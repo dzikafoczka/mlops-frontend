@@ -1,5 +1,6 @@
-import { helpNavigationItems, mainNavigationItems } from "@/config/navigation";
 import { cn } from "@/lib/utils";
+
+import { helpNavigationItems, mainNavigationItems } from "@/config/navigation";
 
 import SectionSeparator from "@/components/navigation/section-separator";
 import MobileSidebarItem from "@/components/navigation/mobile/mobile-sidebar-item";

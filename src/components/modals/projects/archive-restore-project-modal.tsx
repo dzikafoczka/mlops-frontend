@@ -1,5 +1,11 @@
 import axios from "axios";
 
+import { useState } from "react";
+import { useModal } from "@/hooks/use-modal-hook";
+import { useData } from "@/hooks/use-data-hook";
+
+import { cn } from "@/lib/utils";
+
 import { backendConfig } from "@/config/backend";
 
 import {
@@ -9,26 +15,19 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog";
-
 import { DialogClose } from "@radix-ui/react-dialog";
-
 import { Button } from "@/components/ui/button";
+import SectionSeparator from "@/components/navigation/section-separator";
 
 import { X } from "lucide-react";
-import SectionSeparator from "@/components/navigation/section-separator";
-import { useModal } from "@/hooks/use-modal-hook";
-import { useData } from "@/hooks/use-data-hook";
-import Loading from "@/components/icons/loading";
-import { cn } from "@/lib/utils";
+import { Loading, Archive, Unarchive } from "@/components/icons";
+
 import { createToast } from "@/lib/toast";
-import { useState } from "react";
 import { toast } from "react-toastify";
+
 import { Project } from "@/types/project";
-import Archive from "@/components/icons/archive";
-import Unarchive from "@/components/icons/unarchive";
 
 const ArchiveRestoreProjectModal = () => {
-    console.log("DeleteProjectModal");
     const { type, isOpen, onClose, data } = useModal();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -73,7 +72,6 @@ const ArchiveRestoreProjectModal = () => {
                 });
             });
         setIsLoading(false);
-        console.log("handleArchiveRestoreProject");
     };
 
     const handleOnEscapeKeyDown = (e: any) => {
@@ -87,9 +85,6 @@ const ArchiveRestoreProjectModal = () => {
             e.preventDefault();
         }
     };
-
-    console.log("isModalOpen", data.project);
-    console.log("isModalOpen", type);
 
     if (!isModalOpen) return null;
 

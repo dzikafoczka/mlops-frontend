@@ -1,32 +1,19 @@
-import { ProjectStatus } from "@/types/types";
-import { CommandItem } from "../ui/command";
-import { Skeleton } from "../ui/skeleton";
-import { LoremIpsum } from "lorem-ipsum";
+import { lorem, numberBetween } from "@/lib/utils";
+
+import { statuses } from "@/config/maping";
+
+import { CommandItem } from "@/components/ui/command";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const SearchItemSkeleton = () => {
-
-    const numberBetween = (min: number, max: number) => {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    };
-
-    const lorem = new LoremIpsum({
-        wordsPerSentence: {
-            max: 6,
-            min: 2,
-        },
-    });
-
-    const statuses = [
-        ProjectStatus.NOT_STARTED,
-        ProjectStatus.IN_PROGRESS,
-        ProjectStatus.FINISHED,
-    ];
-
     return (
-        <CommandItem className="flex items-center justify-between w-full cursor-pointer select-none" disabled={true}>
+        <CommandItem
+            className="flex items-center justify-between w-full cursor-pointer select-none"
+            disabled={true}
+        >
             <div className="flex items-center mr-3 text-transparent">
                 <Skeleton className="mr-2 rounded">
-                    <div className="flex-shrink-0 w-5 h-5"/>
+                    <div className="flex-shrink-0 w-5 h-5" />
                 </Skeleton>
                 <Skeleton className="rounded">
                     {lorem.generateWords(numberBetween(2, 5))}

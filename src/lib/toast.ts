@@ -7,18 +7,23 @@ interface ToastOptions {
     autoClose?: number;
 }
 
-export const createToast = ({ id, message, type, autoClose = 3000 }: ToastOptions) => {
+export const createToast = ({
+    id,
+    message,
+    type,
+    autoClose = 3000,
+}: ToastOptions) => {
     if (toast.isActive(id)) {
         toast.update(id, {
             render: message,
             type,
-            autoClose
+            autoClose,
         });
     } else {
         toast(message, {
             toastId: id,
             type,
-            autoClose
+            autoClose,
         });
     }
 };

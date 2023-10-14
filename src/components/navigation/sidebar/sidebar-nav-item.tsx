@@ -6,6 +6,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useSearchParams } from "react-router-dom";
 
 interface SidebarNavItemProps {
     path: string;
@@ -13,6 +14,7 @@ interface SidebarNavItemProps {
     Icon: any;
     collapsedLg: boolean;
     expandedMd: boolean;
+    type: "internal" | "external";
 }
 
 const SidebarNavItem = ({
@@ -21,7 +23,12 @@ const SidebarNavItem = ({
     Icon,
     collapsedLg,
     expandedMd,
+    type,
 }: SidebarNavItemProps) => {
+    const [searchParams, setSearchParams] = useSearchParams({
+        ne: "default",
+    });
+
     return (
         <TooltipProvider>
             <Tooltip delayDuration={100}>
@@ -34,7 +41,12 @@ const SidebarNavItem = ({
                             collapsedLg && "lg:justify-center lg:w-[48px]",
                             expandedMd && "sm:justify-normal sm:w-full"
                         )}
-                        href={path}
+                        href={`${path}${
+                            type === "internal" &&
+                            searchParams.get("ne") !== "default"
+                                ? `?ne=${searchParams.get("ne")}`
+                                : ""
+                        }`}
                     >
                         <Icon
                             className={cn(

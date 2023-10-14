@@ -35,6 +35,7 @@ const NavigationSidebar = () => {
                             Icon={item.icon}
                             collapsedLg={isCollapsedLg}
                             expandedMd={isExpandedMd}
+                            type="internal"
                         />
                     ))}
                 </div>
@@ -48,6 +49,7 @@ const NavigationSidebar = () => {
                             Icon={item.icon}
                             collapsedLg={isCollapsedLg}
                             expandedMd={isExpandedMd}
+                            type="external"
                         />
                     ))}
                 </div>

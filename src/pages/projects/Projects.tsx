@@ -76,7 +76,7 @@ const Projects = () => {
     /**
      * State for storing search query
      */
-    const [query, setQuery] = useState("");
+    const [query, setQuery] = useState(searchParams.get("search") || "");
 
     /**
      * Custom debounceSearch hook for search query

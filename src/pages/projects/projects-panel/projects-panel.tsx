@@ -110,6 +110,7 @@ const ProjectPanel = ({
                     Icon={
                         <Search className="absolute flex-shrink-0 w-5 h-5 top-2 left-2 dark:text-mlops-primary-tx-dark text-mlops-primary-tx" />
                     }
+                    value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyDown={handleOnKeyDown}
                     disabled={disabled}

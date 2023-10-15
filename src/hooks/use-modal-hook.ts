@@ -1,16 +1,21 @@
 import { create } from "zustand";
 
 import { Project } from "@/types/project";
+import { Experiment } from "@/types/experiment";
 
 export type ModalType =
     | "createProject"
     | "editProject"
     | "deleteProject"
     | "archiveProject"
-    | "restoreProject";
+    | "restoreProject"
+    | "createExperiment"
+    | "editExperiment"
+    | "deleteExperiment";
 
 interface ModalData {
     project?: Project;
+    experiment?: Experiment;
 }
 
 interface ModalStore {

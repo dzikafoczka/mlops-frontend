@@ -7,4 +7,5 @@ export interface Experiment {
     created_at: Date;
     updated_at: Date;
     iterations: Iteration[];
+    checked?: boolean;
 }

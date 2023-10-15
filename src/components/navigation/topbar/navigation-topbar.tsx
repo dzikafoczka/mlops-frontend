@@ -130,7 +130,11 @@ const NavigationTopbar = () => {
                             isExpandedMd &&
                                 "sm:justify-normal sm:px-3 sm:my-[2px]"
                         )}
-                        href="/"
+                        href={`/projects${
+                            searchParams.get("ne") !== "default"
+                                ? `?ne=${searchParams.get("ne")}`
+                                : ""
+                        }`}
                     >
                         <img src="/mlops.svg" alt="logo" className="w-8 h-8" />
                         <span

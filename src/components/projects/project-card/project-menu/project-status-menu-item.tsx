@@ -29,9 +29,10 @@ const ProjectStatusMenuItem = ({
             .put(`${url}:${port}/projects/${project._id}`, {
                 status: status,
             })
-            .then(() => {
+            .then((res) => {
                 data.updateProject(project._id, {
-                    ...project,
+                    ...res.data,
+                    pinned: project.pinned,
                     status: status,
                 } as Project);
             })

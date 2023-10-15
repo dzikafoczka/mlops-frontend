@@ -26,9 +26,9 @@ const PinUnpinProjectMenuItem = ({
             .put(`${url}:${port}/projects/${project._id}`, {
                 pinned: action === "pin" ? true : false,
             })
-            .then(() => {
+            .then((res) => {
                 data.updateProject(project._id, {
-                    ...project,
+                    ...res.data,
                     pinned: action === "pin" ? true : false,
                 } as Project);
             })

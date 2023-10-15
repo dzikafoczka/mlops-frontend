@@ -1,4 +1,5 @@
 import BreadcrumbSeparator from "@/components/icons/breadcrumb-separator";
+import { useSearchParams } from "react-router-dom";
 
 interface BreadcrumbItem {
     name: string;
@@ -11,6 +12,10 @@ interface BreadcrumbProps {
 }
 
 const Breadcrumb = ({ items }: BreadcrumbProps) => {
+    const [searchParams, setSearchParams] = useSearchParams({
+        ne: "default",
+    });
+
     const breadcrumbLastItemIndex = items.length - 1;
     const breadcrumb = items.map((item, index) => {
         if (index === breadcrumbLastItemIndex) {
@@ -27,25 +32,29 @@ const Breadcrumb = ({ items }: BreadcrumbProps) => {
 
         if (item.href) {
             return (
-                <div key={index}>
+                <div key={index} className="flex items-center">
                     <a
-                        className="flex items-center text-sm font-semibold hover:text-[#51678f] hover:dark:dark:text-zinc-300 transition duration-300"
-                        href={item.href}
+                        className="flex items-center text-sm font-semibold hover:text-[#51678f] hover:dark:dark:text-zinc-300 transition duration-300 mr-[2px]"
+                        href={`${item.href}${
+                            searchParams.get("ne") !== "default"
+                                ? `?ne=${searchParams.get("ne")}`
+                                : ""
+                        }`}
                     >
                         <item.Icon className="flex-shrink-0 w-4 h-4 mr-1" />
                         {item.name}
                     </a>
-                    <BreadcrumbSeparator className="w-[1.25rem] h-[1.25rem] flex-shrink-0" />
+                    <BreadcrumbSeparator className="w-[1.25rem] h-[1.25rem] flex-shrink-0 mr-[2px]" />
                 </div>
             );
         }
         return (
-            <div key={index}>
-                <p className="flex items-center text-sm font-semibold">
+            <div key={index} className="flex items-center">
+                <p className="flex items-center mr-[2px] text-sm font-semibold">
                     <item.Icon className="flex-shrink-0 w-4 h-4 mr-1" />
                     {item.name}
                 </p>
-                <BreadcrumbSeparator className="w-[1.25rem] h-[1.25rem] flex-shrink-0" />
+                <BreadcrumbSeparator className="w-[1.25rem] h-[1.25rem] flex-shrink-0 mr-[2px]" />
             </div>
         );
     });

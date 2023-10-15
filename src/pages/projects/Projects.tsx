@@ -50,6 +50,7 @@ interface ProjectsData {
  * Projects page component
  */
 const Projects = () => {
+    console.log("Projects");
     /**
      * Custom data hook for data management
      */
@@ -93,6 +94,7 @@ const Projects = () => {
      * @runs after component mount and every time when debounceSearch, data.projects, isArchived or sortBy changes
      */
     useEffect(() => {
+        console.log("useEffect");
         if (data.projects) {
             const archivedProjects = data.projects.filter((project) => {
                 return project.archived === true;
@@ -164,7 +166,7 @@ const Projects = () => {
                           )),
                   });
         }
-    }, [debounceSearch, data.projects, isArchived, sortBy]);
+    }, [debounceSearch, data.projects, sortBy]);
 
     /**
      * Function for rendering project dashboard content

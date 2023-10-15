@@ -8,6 +8,7 @@ import { CommandItem } from "@/components/ui/command";
 import { Badge } from "@/components/ui/badge";
 
 import { ProjectData, ExperimentData, IterationData } from "@/types/types";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface SearchItemData {
     project?: ProjectData;
@@ -18,9 +19,16 @@ interface SearchItemData {
 interface SearchItemProps {
     type: "project" | "experiment" | "iteration";
     data: SearchItemData;
+    handleClose: () => void;
 }
 
-const SearchItem = ({ type, data }: SearchItemProps) => {
+const SearchItem = ({ type, data, handleClose }: SearchItemProps) => {
+    const navigate = useNavigate();
+
+    const [searchParams] = useSearchParams({
+        ne: "default",
+    });
+
     switch (type) {
         case "project":
             if (data.project) {
@@ -28,7 +36,16 @@ const SearchItem = ({ type, data }: SearchItemProps) => {
                     <CommandItem
                         key={data.project._id}
                         className="flex items-center justify-between w-full cursor-pointer"
-                        onSelect={(value) => console.log(value)}
+                        onSelect={() => {
+                            handleClose();
+                            navigate(
+                                `/projects/${data.project?._id}/experiments${
+                                    searchParams.get("ne") !== "default"
+                                        ? `?ne=${searchParams.get("ne")}`
+                                        : ""
+                                }`
+                            );
+                        }}
                     >
                         <div className="flex items-center mr-3">
                             <VscProject className="mr-2" /> {data.project.title}

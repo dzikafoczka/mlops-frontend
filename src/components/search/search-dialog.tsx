@@ -75,7 +75,7 @@ const SearchDialog = () => {
                 });
                 search_data.push({
                     type: "project",
-                    id: project._id,
+                    _id: project._id,
                     title: project.title,
                     status: project.status,
                     experiments_count: project.experiments.length,
@@ -102,7 +102,8 @@ const SearchDialog = () => {
                           case "project":
                               projects_group.push(
                                   <SearchItem
-                                      key={item.id}
+                                      key={item._id}
+                                      handleClose={handleClose}
                                       type="project"
                                       data={{ [item.type]: item }}
                                   />
@@ -112,6 +113,7 @@ const SearchDialog = () => {
                               experiments_group.push(
                                   <SearchItem
                                       key={item.id}
+                                      handleClose={handleClose}
                                       type="experiment"
                                       data={{ [item.type]: item }}
                                   />
@@ -121,6 +123,7 @@ const SearchDialog = () => {
                               iterations_group.push(
                                   <SearchItem
                                       key={item.id}
+                                      handleClose={handleClose}
                                       type="iteration"
                                       data={{ [item.type]: item }}
                                   />
@@ -133,8 +136,9 @@ const SearchDialog = () => {
                           case "project":
                               projects_group.push(
                                   <SearchItem
-                                      key={results.item.id}
+                                      key={results.item._id}
                                       type="project"
+                                      handleClose={handleClose}
                                       data={{
                                           [results.item.type]: results.item,
                                       }}
@@ -146,6 +150,7 @@ const SearchDialog = () => {
                                   <SearchItem
                                       key={results.item.id}
                                       type="experiment"
+                                      handleClose={handleClose}
                                       data={{
                                           [results.item.type]: results.item,
                                       }}
@@ -156,6 +161,7 @@ const SearchDialog = () => {
                               iterations_group.push(
                                   <SearchItem
                                       key={results.item.id}
+                                      handleClose={handleClose}
                                       type="iteration"
                                       data={{
                                           [results.item.type]: results.item,
@@ -183,7 +189,7 @@ const SearchDialog = () => {
         };
 
         filterData();
-    }, [data, debounceSearch]);
+    }, [data.projects, debounceSearch]);
 
     useEffect(() => {
         const openSearchDialog = (e: KeyboardEvent) => {

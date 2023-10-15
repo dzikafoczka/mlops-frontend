@@ -6,6 +6,7 @@ import {
     DeleteProjectModal,
     ArchiveRestoreProjectModal,
 } from "@/components/modals/projects";
+import CreateExperimentModal from "../modals/experiments/create-experiment-modal";
 
 const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -15,6 +16,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
             <EditProjectModal />
             <DeleteProjectModal />
             <ArchiveRestoreProjectModal />
+            <CreateExperimentModal />
         </>
     );
 };

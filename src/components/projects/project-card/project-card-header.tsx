@@ -1,6 +1,8 @@
+import { useSearchParams } from "react-router-dom";
+
 import { PinFilled } from "@/components/icons";
 
-import ProjectCardHeaderActions from "./project-card-header/project-card-header-actions";
+import ProjectDropdownActions from "@/components/projects/project-dropdown-actions";
 
 import { Project } from "@/types/project";
 
@@ -10,18 +12,29 @@ interface ProjectCardProps {
 }
 
 const ProjectCardHeader = ({ project, setLoading }: ProjectCardProps) => {
+    const [searchParams, setSearchParams] = useSearchParams({
+        ne: "default",
+    });
+
     return (
         <div className="flex items-center justify-between mb-2 font-semibold">
             <span className="flex items-center mr-2 cursor-pointer text-mlops-primary-tx dark:text-mlops-primary-tx-dark hover:underline">
                 {project.pinned && (
-                    <PinFilled className="flex-shrink-0 w-5 h-5 mr-1 text-mlops-primary" />
+                    <div title="Project is pinned">
+                        <PinFilled className="flex-shrink-0 w-5 h-5 mr-1 text-mlops-primary" />
+                    </div>
                 )}{" "}
-                {project.title}
+                <a
+                    href={`/projects/${project._id}/experiments${
+                        searchParams.get("ne") !== "default"
+                            ? `?ne=${searchParams.get("ne")}`
+                            : ""
+                    }`}
+                >
+                    {project.title}
+                </a>
             </span>
-            <ProjectCardHeaderActions
-                project={project}
-                setLoading={setLoading}
-            />
+            <ProjectDropdownActions project={project} setLoading={setLoading} />
         </div>
     );
 };

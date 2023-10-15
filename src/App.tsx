@@ -8,6 +8,7 @@ import { fallbackRender } from "@/components/error-boundary/fallbackRenderer";
 import MainLayout from "@/layouts/main/layout";
 
 import Projects from "@/pages/projects/Projects";
+import Experiments from "@/pages/experiments/Experiments";
 
 import Toast from "@/components/toast";
 import { Toaster } from "@/components/ui/toaster";
@@ -33,6 +34,7 @@ function App() {
                                     path="/projects"
                                     element={<Projects />}
                                 />
+                                <Route path='/projects/:project_id/experiments' element={<Experiments />} />
                             </Routes>
                             <Toast />
                             <Toaster />

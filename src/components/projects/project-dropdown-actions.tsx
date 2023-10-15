@@ -17,11 +17,11 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import ModalProjectMenuItem from "../project-menu/modal-project-menu-item";
-import PinUnpinProjectMenuItem from "../project-menu/pin-unpin-project-menu-item";
-import CopyProjectIdMenuItem from "../project-menu/copy-project-id-menu-item";
-import ProjectStatusMenuItem from "../project-menu/project-status-menu-item";
-import ProjectMenuHeader from "../project-menu/project-menu-header";
+import ModalProjectMenuItem from "./project-card/project-menu/modal-project-menu-item";
+import PinUnpinProjectMenuItem from "./project-card/project-menu/pin-unpin-project-menu-item";
+import CopyProjectIdMenuItem from "./project-card/project-menu/copy-project-id-menu-item";
+import ProjectStatusMenuItem from "./project-card/project-menu/project-status-menu-item";
+import ProjectMenuHeader from "./project-card/project-menu/project-menu-header";
 
 import { Project } from "@/types/project";
 
@@ -30,7 +30,7 @@ interface ProjectCardProps {
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ProjectCardHeaderActions = ({
+const ProjectDropdownActions = ({
     project,
     setLoading,
 }: ProjectCardProps) => {
@@ -84,7 +84,7 @@ const ProjectCardHeaderActions = ({
                                 ItemType={DropdownMenuItem}
                                 modalType="archiveProject"
                                 Icon={Archive}
-                                menuDescription="Restore project"
+                                menuDescription="Archive project"
                             />
                         )}
                         <ProjectStatusMenuItem
@@ -115,4 +115,4 @@ const ProjectCardHeaderActions = ({
     );
 };
 
-export default ProjectCardHeaderActions;
+export default ProjectDropdownActions;

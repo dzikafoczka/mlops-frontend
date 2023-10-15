@@ -19,7 +19,6 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
     const [isLoading, setIsLoading] = useState(false);
-    // console.log("ProjectCard");
 
     return (
         <div>

@@ -13,6 +13,7 @@ import NavigationSidebar from "@/components/navigation/sidebar/navigation-sideba
 import NavigationTopbar from "@/components/navigation/topbar/navigation-topbar";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
+    console.log("MainLayout");
 
     const { showBoundary } = useErrorBoundary();
 
@@ -32,7 +33,6 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
         (async () => {
             try {
-                // await sleep(3000);
                 const response = await axios.get(`${url}:${port}/projects`, {
                     signal: signal,
                 });

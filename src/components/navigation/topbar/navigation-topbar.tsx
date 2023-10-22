@@ -238,7 +238,8 @@ const NavigationTopbar = () => {
                                 <span
                                     className={cn(
                                         "hidden mr-2 lg:block",
-                                        isCollapsedLg && "lg:hidden"
+                                        isCollapsedLg && "lg:hidden",
+                                        isExpandedMd && "sm:block"
                                     )}
                                 >
                                     Collapse navigation
@@ -246,7 +247,8 @@ const NavigationTopbar = () => {
                                 <span
                                     className={cn(
                                         "block mr-2 lg:hidden",
-                                        isCollapsedLg && "lg:block"
+                                        isCollapsedLg && "lg:block",
+                                        isExpandedMd && "sm:hidden"
                                     )}
                                 >
                                     Expand navigation

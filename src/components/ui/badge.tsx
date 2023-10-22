@@ -15,6 +15,10 @@ const badgeVariants = cva(
                     "border-transparent bg-mlops-in-progress text-white rounded text-xs font-medium",
                 not_started:
                     "border-transparent bg-mlops-not-started text-white rounded text-xs font-medium",
+                active:
+                    "border-transparent bg-mlops-in-progress text-white rounded text-xs font-medium",
+                idle:
+                    "border-transparent bg-mlops-not-started text-white rounded text-xs font-medium",
                 archived:
                     "border-transparent bg-mlops-archived text-white rounded text-xs font-medium",
                 default:

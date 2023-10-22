@@ -1,18 +1,24 @@
 import Breadcrumb from "@/components/breadcrumb";
 import ExperimentList from "@/components/experiments/experiments-list/experiments-list";
+import NoExperiments from "@/components/experiments/experiments-messages/no-experiments";
 import PageHeader from "@/components/page-header";
 import ProjectDropdownActions from "@/components/projects/project-dropdown-actions";
 import { useData } from "@/hooks/use-data-hook";
 import { Project } from "@/types/project";
-import {
-    LayoutDashboard,
-} from "lucide-react";
-import { useEffect, useState } from "react";
+import { LayoutDashboard } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { VscProject } from "react-icons/vsc";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import ExperimentHeader from "@/components/experiments/experiments-info/experiment-header";
+import ExperimentInfo from "@/components/experiments/experiments-info/experiment-info";
+import { Loading } from "@/components/icons";
+import IterationsContainer from "@/components/experiments/iterations/iterations-container";
 
 const Experiments = () => {
     console.log("Experiments");
+
+    const navigate = useNavigate();
+
     const { project_id } = useParams();
 
     const [searchParams, setSearchParams] = useSearchParams({
@@ -29,7 +35,6 @@ const Experiments = () => {
     );
 
     useEffect(() => {
-        console.log("useEffect");
         if (data.projects) {
             let foundProject = data.projects.find(
                 (project) => project._id === project_id
@@ -48,7 +53,6 @@ const Experiments = () => {
 
                 if (experiments) {
                     let searchParamsExperiments = experiments.split(",");
-                    console.log(experiments);
                     intersection = experiments_ids.filter((id) =>
                         searchParamsExperiments.includes(id)
                     );
@@ -111,6 +115,15 @@ const Experiments = () => {
             }
         }
     }, [data.projects, project_id]);
+
+    const activeExperiments = useMemo(() => {
+        if (projectData) {
+            return projectData.experiments.filter(
+                (experiment) => experiment.checked
+            );
+        }
+        return [];
+    }, [data.projects, projectData]);
 
     const handleCheckboxChange = (experiment_id: string) => {
         let experiments = searchParams.get("experiments");
@@ -203,15 +216,32 @@ const Experiments = () => {
     };
 
     if (projectData === undefined) {
-        return <div>Project not found.</div>;
+        return navigate(
+            `/projects${
+                searchParams.get("ne") !== "default"
+                    ? `?ne=${searchParams.get("ne")}`
+                    : ""
+            }`,
+            { replace: true }
+        );
     }
 
     if (projectData === null) {
-        return <div>Loading data ...</div>;
+        return (
+            <div>Loading data ...</div>
+        );
     }
 
     return (
-        <>
+        <div className="relative">
+            {isLoading && (
+                <div className="absolute top-[50%] left-[50%] w-full h-full z-50 flex items-center justify-center -translate-x-1/2 -translate-y-1/2 text-center backdrop-blur-[2px] rounded-md">
+                    <div className="flex items-center px-2 py-1 font-semibold text-white rounded bg-mlops-primary">
+                        <Loading className="animate-spin" />
+                        Updating ...
+                    </div>
+                </div>
+            )}
             <div className="mb-4">
                 <PageHeader
                     title={projectData.title}
@@ -239,17 +269,57 @@ const Experiments = () => {
                     ]}
                 />
             </div>
-            <div className="flex">
-                <ExperimentList
-                    projectData={projectData}
-                    handleCheckboxChange={handleCheckboxChange}
-                    handleCheckboxLabelClick={handleCheckboxLabelClick}
-                />
-                <div className="flex flex-col">
-                    Tutaj będą iteracje i inne fajne rzeczy
-                </div>
+
+            <div className="flex flex-col gap-5 lg:flex-row">
+                {projectData.experiments.length > 0 ? (
+                    <>
+                        <ExperimentList
+                            projectData={projectData}
+                            handleCheckboxChange={handleCheckboxChange}
+                            handleCheckboxLabelClick={handleCheckboxLabelClick}
+                        />
+                        <div className="flex flex-col w-full">
+                            {activeExperiments.length === 1 ? (
+                                <>
+                                    <ExperimentHeader
+                                        title={activeExperiments[0].name}
+                                        description={
+                                            activeExperiments[0].description
+                                        }
+                                    />
+
+                                    <ExperimentInfo
+                                        createdAt={
+                                            activeExperiments[0].created_at
+                                        }
+                                        updatedAt={
+                                            activeExperiments[0].updated_at
+                                        }
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <ExperimentHeader
+                                        title={`Displaying iterations from ${activeExperiments.length} experiments`}
+                                        description={activeExperiments
+                                            .map(
+                                                (experiment) => experiment.name
+                                            )
+                                            .join(", ")}
+                                    />
+                                </>
+                            )}
+                            <IterationsContainer
+                                projectData={projectData}
+                                activeExperiments={activeExperiments}
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <NoExperiments projectData={projectData} />
+                )}
             </div>
-        </>
+        </div>
     );
 };
 

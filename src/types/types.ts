@@ -1,3 +1,4 @@
+import { Model } from "./model";
 import { Project } from "./project";
 
 export interface ProjectData {
@@ -29,8 +30,19 @@ export interface IconProps {
     className?: string;
 }
 
+export interface Keyable {
+    [key: string]: any;
+}
+
 export interface ProjectQuickAction {
     project: Project;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    ItemType: any;
+    SubItemType?: any;
+}
+
+export interface ModelQuickAction {
+    model: Model;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     ItemType: any;
     SubItemType?: any;
@@ -40,4 +52,10 @@ export enum ProjectStatus {
     FINISHED = "completed",
     IN_PROGRESS = "in_progress",
     NOT_STARTED = "not_started",
+}
+
+export enum ModelStatus {
+    ACTIVE = "active",
+    IDLE = "idle",
+    ARCHIVED = "archived",
 }

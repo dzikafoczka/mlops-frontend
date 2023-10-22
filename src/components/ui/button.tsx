@@ -11,6 +11,7 @@ const buttonVariants = cva(
       variant: {
         mlopsPrimary: "bg-mlops-primary text-white hover:bg-mlops-primary/90 text-md font-semibold focus-visible:ring-mlops-primary-tx focus-visible:dark:ring-mlops-primary-tx-dark",
         mlopsDanger: "bg-mlops-danger text-white hover:bg-mlops-danger/90 text-md font-semibold focus-visible:ring-mlops-primary-tx focus-visible:dark:ring-mlops-primary-tx-dark",
+        mlopsGridAction: "bg-white text-mlops-primary-tx border border-[1.5px] border-mlops-primary-tx font-semibold text-base hover:bg-mlops-primary-tx hover:text-white transition duration-300 dark:bg-mlops-nav-bg-dark dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-mlops-nav-bg-dark",
         default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
@@ -27,6 +28,7 @@ const buttonVariants = cva(
         md: "h-9 rounded-md px-3",
         lg: "h-10 rounded-md px-8",
         icon: "h-10 w-10",
+        grid: "h-9 rounded-md py-1 px-[6px]"
       },
     },
     defaultVariants: {
@@ -56,4 +58,4 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = "Button"
 
-export { Button, buttonVariants }
+export { Button }

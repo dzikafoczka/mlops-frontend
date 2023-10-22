@@ -19,6 +19,7 @@ import Kbd from "@/components/kbd";
 import SearchItem from "@/components/search/search-item";
 import { useDebounce } from "@/hooks/use-debounce-hook";
 import SearchItemSkeleton from "@/components/search/search-item-skeleton";
+import { Keyable } from "@/types/types";
 
 interface SearchData {
     projects_group: React.ReactNode[];
@@ -35,9 +36,6 @@ const SearchDialog = () => {
 
     const [searchData, setSearchData] = useState<SearchData | null>(null);
 
-    interface keyable {
-        [key: string]: any;
-    }
 
     useEffect(() => {
         const filterData = async () => {
@@ -47,7 +45,7 @@ const SearchDialog = () => {
             let experiments_group: React.ReactNode[] = [];
             let iterations_group: React.ReactNode[] = [];
 
-            let search_data: keyable[] = [];
+            let search_data: Keyable[] = [];
 
             data.projects.forEach((project) => {
                 let iterations = 0;

@@ -79,9 +79,9 @@ const EditProjectModal = () => {
         resolver: zodResolver(formSchema),
         defaultValues: useMemo(() => {
             return {
-                title: data.project?.title,
-                description: data.project?.description,
-                status: data.project?.status,
+                title: !data.project ? "" : data.project.title,
+                description: !data.project ? "" : data.project.description,
+                status: !data.project ? "not_started" : data.project.status,
             };
         }, [data.project]),
     });

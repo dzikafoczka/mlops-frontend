@@ -2,6 +2,9 @@ import { create } from "zustand";
 
 import { Project } from "@/types/project";
 import { Experiment } from "@/types/experiment";
+import { Iteration } from "@/types/iteration";
+import { Keyable } from "@/types/types";
+import { Model } from "@/types/model";
 
 export type ModalType =
     | "createProject"
@@ -11,11 +14,28 @@ export type ModalType =
     | "restoreProject"
     | "createExperiment"
     | "editExperiment"
-    | "deleteExperiment";
+    | "deleteExperiment"
+    | "editIteration"
+    | "deleteIterations"
+    | "createEmptyModel"
+    | "createModelFromIteration"
+    | "editModel"
+    | "deleteModel"
+    | "archiveModel"
+    | "restoreModel";
+
+interface DeleteIterations {
+    project_id: string;
+    numberOfIterations: number;
+    iterationsToDelete: Keyable;
+}
 
 interface ModalData {
     project?: Project;
     experiment?: Experiment;
+    iteration?: Iteration;
+    deleteIterations?: DeleteIterations;
+    model?: Model;
 }
 
 interface ModalStore {

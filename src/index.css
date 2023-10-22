@@ -1,3 +1,14 @@
+@layer tailwind-base, primereact, tailwind-utilities;
+
+@layer tailwind-base {
+    @tailwind base;
+}
+
+@layer tailwind-utilities {
+    @tailwind components;
+    @tailwind utilities;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -80,17 +91,7 @@
 }
 
 @layer components {
-    /* .topbar-header {
-    @apply flex items-center h-[56px] bg-white dark:bg-gray-900 w-full shadow-md;
-  }
-  
-  .logo-container {
-    @apply flex items-center justify-center lg:justify-normal w-full lg:px-3 px-1 my-[10px] h-9;
-  }
 
-  .logo-text {
-    @apply ml-2 font-bold lg:block hidden text-[26px] text-mlops-primary-tx dark:text-mlops-primary-tx-dark font-logo;
-  } */
     .duration-5000 {
         transition-duration: 5000ms;
     }
@@ -103,8 +104,6 @@
         @apply flex w-auto -ml-6;
     }
 
-    
-
     .my-masonry-grid-column {
         @apply pl-6 bg-clip-padding;
     }
@@ -112,6 +111,11 @@
     .my-masonry-grid-column > div {
         @apply mb-6;
     }
+
+    div[data-pc-name="treeselect"][data-pc-section="root"]::before {
+        @apply dark:content-[url(/column-dark.svg)] content-[url(/column.svg)] w-5 h-5 ml-2;
+    }
+
 }
 
 * {
@@ -146,4 +150,39 @@ html::-webkit-scrollbar-thumb:hover {
     to {
         transform: rotate(360deg);
     }
+}
+
+ul[data-pc-section="subgroup"] li button {
+    visibility: hidden;
+}
+
+.ag-root-wrapper {
+    border-radius: 4px;
+}
+
+.ag-header-row {
+    height: 40px;
+    font-size: 14px;
+}
+
+.ag-header-row .ag-header-group-cell {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.ag-row {
+    background: none;
+}
+
+.ag-cell {
+    font-size: 13px;
+    background: none;
+}
+
+.ag-theme-alpine-dark .ag-paging-panel {
+    background-color: #222628;
+}
+
+.ag-theme-alpine .ag-paging-panel {
+    background-color: #F8F8F8;
 }

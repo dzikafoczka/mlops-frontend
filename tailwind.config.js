@@ -8,13 +8,16 @@ module.exports = {
         "./components/**/*.{ts,tsx}",
         "./app/**/*.{ts,tsx}",
         "./src/**/*.{ts,tsx}",
-        "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
+        "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+        "./node_modules/primereact/**/*.{js,ts,jsx,tsx}",
     ],
     theme: {
         screens: {
             "sm": "576px",
             "md": "800px",
-            "lg": "1024px"
+            "lg": "1024px",
+            'medium': { 'raw': '(min-height: 400px)' },
+            'tall': { 'raw': '(min-height: 500px)' },
         },
         container: {
             center: true,

@@ -11,3 +11,9 @@ export const statuses = [
     ProjectStatus.IN_PROGRESS,
     ProjectStatus.FINISHED,
 ];
+
+export const modelStatuesMap = {
+    active: <p>Active</p>,
+    idle: <p>Idle</p>,
+    archived: <p>Archived</p>,
+};

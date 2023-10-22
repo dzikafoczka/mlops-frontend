@@ -9,4 +9,6 @@ export interface Iteration {
     dataset?: number;
     created_at: Date;
     updated_at: Date;
+    project_id: string;
+    experiment_id: string;
 }

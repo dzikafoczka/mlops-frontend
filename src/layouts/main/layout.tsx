@@ -25,7 +25,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     const data = useData();
 
     /**
-     * Fetch projects data from backend
+     * Fetch projects/datasets/models data from backend
      */
     useEffect(() => {
         let abortController = new AbortController();
@@ -33,10 +33,13 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
         (async () => {
             try {
-                const response = await axios.get(`${url}:${port}/projects`, {
+                const projects = await axios.get(`${url}:${port}/projects/`, {
                     signal: signal,
                 });
-                data.setProjectsData(response.data);
+                const models = await axios.get(`${url}:${port}/monitored-models/`, {
+                    signal: signal,
+                });
+                data.setAll(projects.data, models.data);
             } catch (error: any) {
                 if (!abortController.signal.aborted) {
                     showBoundary(error);

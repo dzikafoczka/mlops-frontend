@@ -13,7 +13,6 @@ const ProjectCardSkeleton = () => {
 
     const isArchived = searchParams.get("archived") === "true";
 
-
     const statuses = [
         ProjectStatus.NOT_STARTED,
         ProjectStatus.IN_PROGRESS,

@@ -1,3 +1,4 @@
+import { Monitoring } from "@/components/icons";
 import { AlertCircle, Database, FileText, Github, LayoutDashboard } from "lucide-react";
 
 export const mainNavigationItems = [
@@ -10,6 +11,11 @@ export const mainNavigationItems = [
         title: "Datasets",
         path: "/datasets",
         icon: Database,
+    },
+    {
+        title: "Models",
+        path: "/models",
+        icon: Monitoring,
     },
 ];
 

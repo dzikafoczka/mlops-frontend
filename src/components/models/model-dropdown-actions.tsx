@@ -6,9 +6,6 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuSeparator,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -23,6 +20,7 @@ import ModelMenuHeader from "./model-card/model-menu/model-menu-header";
 import CopyModelIdMenuItem from "./model-card/model-menu/copy-model-id-menu-item";
 import ModalModelMenuItem from "./model-card/model-menu/modal-model-menu-item";
 import { ModelStatus } from "@/types/types";
+import PinUnpinModelMenuItem from "./model-card/model-menu/pin-unpin-model-menu-item";
 
 interface ModelCardProps {
     model: Model;
@@ -71,7 +69,7 @@ const ModelDropdownActions = ({ model, setLoading }: ModelCardProps) => {
                                 model={model}
                                 ItemType={DropdownMenuItem}
                                 modalType="restoreModel"
-                                Icon={Delete}
+                                Icon={Unarchive}
                                 menuDescription="Restore model"
                             />
                         ) : (
@@ -79,26 +77,16 @@ const ModelDropdownActions = ({ model, setLoading }: ModelCardProps) => {
                                 model={model}
                                 ItemType={DropdownMenuItem}
                                 modalType="archiveModel"
-                                Icon={Delete}
+                                Icon={Archive}
                                 menuDescription="Archive model"
                             />
                         )}
-                        {/* <ProjectStatusMenuItem
-                            project={project}
-                            setLoading={setLoading}
-                            ItemType={{
-                                MenuSub: DropdownMenuSub,
-                                Trigger: DropdownMenuSubTrigger,
-                                MenuSubContent: DropdownMenuSubContent,
-                                MenuItem: DropdownMenuItem,
-                            }}
-                        /> */}
                         <DropdownMenuSeparator />
-                        {/* <PinUnpinProjectMenuItem
-                            project={project}
+                        <PinUnpinModelMenuItem
+                            model={model}
                             setLoading={setLoading}
                             ItemType={DropdownMenuItem}
-                        /> */}
+                        />
                         <DropdownMenuSeparator />
                         <CopyModelIdMenuItem
                             model={model}

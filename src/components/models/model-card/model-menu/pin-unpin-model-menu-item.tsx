@@ -8,33 +8,33 @@ import { backendConfig } from "@/config/backend";
 
 import { Pin, PinFilled } from "@/components/icons";
 
-import { Project } from "@/types/project";
-import { ProjectQuickAction } from "@/types/types";
+import { ModelQuickAction } from "@/types/types";
+import { Model } from "@/types/model";
 
-const PinUnpinProjectMenuItem = ({
-    project,
+const PinUnpinModelMenuItem = ({
+    model,
     setLoading,
     ItemType,
-}: ProjectQuickAction) => {
+}: ModelQuickAction) => {
     const { url, port } = backendConfig;
 
     const data = useData();
 
-    const handlePinUnpinProject = async (action: "pin" | "unpin") => {
+    const handlePinUnpinModel = async (action: "pin" | "unpin") => {
         setLoading(true);
         await axios
-            .put(`${url}:${port}/projects/${project._id}`, {
+            .put(`${url}:${port}/monitored-models/${model._id}`, {
                 pinned: action === "pin" ? true : false,
             })
             .then(() => {
-                data.updateProject(project._id, {
-                    ...project,
+                data.updateModel(model._id, {
+                    ...model,
                     pinned: action === "pin" ? true : false,
-                } as Project);
+                } as Model);
             })
             .catch((error: any) => {
                 createToast({
-                    id: "pin-unpin-project",
+                    id: "pin-unpin-model",
                     message: error.response?.data.detail,
                     type: "error",
                 });
@@ -44,18 +44,18 @@ const PinUnpinProjectMenuItem = ({
 
     return (
         <>
-            {project.pinned ? (
-                <ItemType onClick={() => handlePinUnpinProject("unpin")}>
+            {model.pinned ? (
+                <ItemType onClick={() => handlePinUnpinModel("unpin")}>
                     <div className="flex items-center">
                         <PinFilled className="flex-shrink-0 w-5 h-5 mr-2 dark:text-[#D5D5D5]" />
-                        Unpin project
+                        Unpin model
                     </div>
                 </ItemType>
             ) : (
-                <ItemType onClick={() => handlePinUnpinProject("pin")}>
+                <ItemType onClick={() => handlePinUnpinModel("pin")}>
                     <div className="flex items-center">
                         <Pin className="flex-shrink-0 w-5 h-5 mr-2 dark:text-[#D5D5D5]" />
-                        Pin project
+                        Pin model
                     </div>
                 </ItemType>
             )}
@@ -63,4 +63,4 @@ const PinUnpinProjectMenuItem = ({
     );
 };
 
-export default PinUnpinProjectMenuItem;
+export default PinUnpinModelMenuItem;

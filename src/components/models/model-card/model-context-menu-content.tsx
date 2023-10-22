@@ -4,9 +4,6 @@ import {
     ContextMenuContent,
     ContextMenuItem,
     ContextMenuSeparator,
-    ContextMenuSub,
-    ContextMenuSubContent,
-    ContextMenuSubTrigger,
 } from "@/components/ui/context-menu";
 import ProjectMenuHeader from "./model-menu/model-menu-header";
 
@@ -14,6 +11,7 @@ import CopyModelIdMenuItem from "./model-menu/copy-model-id-menu-item";
 import { Model } from "@/types/model";
 import ModalModelMenuItem from "./model-menu/modal-model-menu-item";
 import { ModelStatus } from "@/types/types";
+import PinUnpinModelMenuItem from "./model-menu/pin-unpin-model-menu-item";
 
 interface ModelCardProps {
     model: Model;
@@ -47,7 +45,7 @@ const ModelContextMenuContent = ({ model, setLoading }: ModelCardProps) => {
                     model={model}
                     ItemType={ContextMenuItem}
                     modalType="restoreModel"
-                    Icon={Delete}
+                    Icon={Unarchive}
                     menuDescription="Restore model"
                 />
             ) : (
@@ -55,26 +53,16 @@ const ModelContextMenuContent = ({ model, setLoading }: ModelCardProps) => {
                     model={model}
                     ItemType={ContextMenuItem}
                     modalType="archiveModel"
-                    Icon={Delete}
+                    Icon={Archive}
                     menuDescription="Archive model"
                 />
             )}
-            {/* <ProjectStatusMenuItem
-                project={project}
-                setLoading={setLoading}
-                ItemType={{
-                    MenuSub: ContextMenuSub,
-                    Trigger: ContextMenuSubTrigger,
-                    MenuSubContent: ContextMenuSubContent,
-                    MenuItem: ContextMenuItem,
-                }}
-            /> */}
             <ContextMenuSeparator />
-            {/* <PinUnpinProjectMenuItem
-                project={project}
+            <PinUnpinModelMenuItem
+                model={model}
                 setLoading={setLoading}
                 ItemType={ContextMenuItem}
-            /> */}
+            />
             <ContextMenuSeparator />
             <CopyModelIdMenuItem model={model} ItemType={ContextMenuItem} />
         </ContextMenuContent>

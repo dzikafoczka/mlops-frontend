@@ -269,6 +269,9 @@ const Models = () => {
         );
     };
 
+    console.log("Models", data.models);
+    console.log("Projects", data.projects);
+
     /**
      * Models page render
      */

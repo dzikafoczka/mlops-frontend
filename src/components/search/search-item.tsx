@@ -1,23 +1,29 @@
-import { projectStatusesMap } from "@/config/maping";
+import { modelStatusesMap, projectStatusesMap } from "@/config/maping";
 
 import { AiOutlineExperiment } from "react-icons/ai";
 import { GoIterations } from "react-icons/go";
 import { VscProject } from "react-icons/vsc";
 
-import { CommandItem } from "@/components/ui/command";
+import { CommandItem } from "@/components/ui/command-searchbar";
 import { Badge } from "@/components/ui/badge";
 
 import { ProjectData, ExperimentData, IterationData } from "@/types/types";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { Model } from "@/types/model";
+import Cycle from "../icons/cycle";
+import { Dataset } from "@/types/dataset";
+import { Database } from "lucide-react";
 
 interface SearchItemData {
     project?: ProjectData;
     experiment?: ExperimentData;
     iteration?: IterationData;
+    model?: Model;
+    dataset?: Dataset;
 }
 
 interface SearchItemProps {
-    type: "project" | "experiment" | "iteration";
+    type: "project" | "experiment" | "iteration" | "dataset" | "model";
     data: SearchItemData;
     handleClose: () => void;
 }
@@ -48,7 +54,8 @@ const SearchItem = ({ type, data, handleClose }: SearchItemProps) => {
                         }}
                     >
                         <div className="flex items-center mr-3">
-                            <VscProject className="mr-2" /> {data.project.title}
+                            <VscProject className="flex-shrink-0 mr-2" />{" "}
+                            {data.project.title}
                         </div>
                         <div className="flex items-center gap-x-1">
                             <Badge
@@ -57,7 +64,11 @@ const SearchItem = ({ type, data, handleClose }: SearchItemProps) => {
                                 title="Number of Iterations"
                             >
                                 <GoIterations
-                                    style={{ width: "12px", heigth: "12px" }}
+                                    className="flex-shrink-0"
+                                    style={{
+                                        width: "12px",
+                                        heigth: "12px",
+                                    }}
                                 />
                                 <span>{data.project.iterations_count}</span>
                             </Badge>
@@ -67,17 +78,32 @@ const SearchItem = ({ type, data, handleClose }: SearchItemProps) => {
                                 title="Number of Experiments"
                             >
                                 <AiOutlineExperiment
-                                    style={{ width: "12px", heigth: "12px" }}
+                                    className="flex-shrink-0"
+                                    style={{
+                                        width: "12px",
+                                        heigth: "12px",
+                                    }}
                                 />
                                 <span>{data.project.experiments_count}</span>
                             </Badge>
-                            <Badge
-                                variant={data.project.status}
-                                className="border-none"
-                                title="Project Status"
-                            >
-                                {projectStatusesMap[data.project.status]}
-                            </Badge>
+
+                            {data.project.archived ? (
+                                <Badge
+                                    variant="archived"
+                                    className="border-none"
+                                    title="Project is archived"
+                                >
+                                    Archived
+                                </Badge>
+                            ) : (
+                                <Badge
+                                    variant={data.project.status}
+                                    className="border-none"
+                                    title="Project Status"
+                                >
+                                    {projectStatusesMap[data.project.status]}
+                                </Badge>
+                            )}
                         </div>
                         <span className="hidden">{data.project._id}</span>
                     </CommandItem>
@@ -92,12 +118,24 @@ const SearchItem = ({ type, data, handleClose }: SearchItemProps) => {
                     <CommandItem
                         className="flex items-center justify-between w-full cursor-pointer"
                         key={data.experiment.id}
+                        onSelect={() => {
+                            handleClose();
+                            navigate(
+                                `/projects/${data.experiment
+                                    ?.project_id}/experiments?experiments=${data
+                                    .experiment?.id}${
+                                    searchParams.get("ne") !== "default"
+                                        ? `&ne=${searchParams.get("ne")}`
+                                        : ""
+                                }`
+                            );
+                        }}
                     >
                         <div
                             className="flex items-center mr-3"
                             key={data.experiment.id}
                         >
-                            <AiOutlineExperiment className="mr-2" />{" "}
+                            <AiOutlineExperiment className="flex-shrink-0 mr-2" />{" "}
                             {data.experiment.name}
                         </div>
                         <div className="flex items-center gap-x-1">
@@ -107,6 +145,7 @@ const SearchItem = ({ type, data, handleClose }: SearchItemProps) => {
                                 title="Number of Iterations"
                             >
                                 <GoIterations
+                                    className="flex-shrink-0"
                                     style={{ width: "12px", heigth: "12px" }}
                                 />
                                 <span>{data.experiment.iterations_count}</span>
@@ -115,7 +154,7 @@ const SearchItem = ({ type, data, handleClose }: SearchItemProps) => {
                                 <li className="inline-flex items-center text-[13px]">
                                     (
                                     <VscProject
-                                        className="mr-1"
+                                        className="flex-shrink-0 mr-1"
                                         style={{ width: "16px" }}
                                     />{" "}
                                     {data.experiment.project_title})
@@ -147,12 +186,12 @@ const SearchItem = ({ type, data, handleClose }: SearchItemProps) => {
                             <li className="inline-flex items-center text-[13px]">
                                 (
                                 <VscProject
-                                    className="mr-1"
+                                    className="flex-shrink-0 mr-1"
                                     style={{ width: "16px" }}
                                 />{" "}
                                 {data.iteration.project_title}
                                 <svg
-                                    className="h-auto text-gray-400 fill-current"
+                                    className="flex-shrink-0 h-auto text-gray-400 fill-current"
                                     style={{ width: "16px" }}
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
@@ -161,9 +200,9 @@ const SearchItem = ({ type, data, handleClose }: SearchItemProps) => {
                                     <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6-6-6z" />
                                 </svg>
                             </li>
-                            <li className="inline-flex items-center">
+                            <li className="inline-flex items-center text-[13px]">
                                 <AiOutlineExperiment
-                                    className="mr-1"
+                                    className="flex-shrink-0 mr-1"
                                     style={{ width: "16px" }}
                                 />{" "}
                                 {data.iteration.experiment_name}
@@ -175,6 +214,134 @@ const SearchItem = ({ type, data, handleClose }: SearchItemProps) => {
                 );
             } else {
                 console.log("No iteration data");
+                return null;
+            }
+        case "model": {
+            if (data.model) {
+                return (
+                    <CommandItem
+                        className="flex items-center justify-between w-full cursor-pointer"
+                        key={data.model._id}
+                    >
+                        <div
+                            className="flex items-center mr-3"
+                            key={data.model._id}
+                        >
+                            <AiOutlineExperiment className="flex-shrink-0 mr-2" />{" "}
+                            {data.model.model_name}
+                        </div>
+                        <div className="flex items-center gap-x-1">
+                            {data.model.iteration && (
+                                <>
+                                    <Badge
+                                        variant="mlops"
+                                        className="border-none h-[20px] px-1 bg-[#279EFF] gap-x-[1px]"
+                                        title="Number of Historical Predictions"
+                                    >
+                                        <Cycle
+                                            className="flex-shrink-0"
+                                            style={{ width: "12px" }}
+                                        />
+                                        <span>998</span>
+                                    </Badge>
+                                    <ul className="flex items-center">
+                                        <li className="inline-flex items-center text-[13px]">
+                                            (
+                                            <GoIterations
+                                                className="flex-shrink-0 mr-1"
+                                                style={{ width: "16px" }}
+                                            />{" "}
+                                            {
+                                                data.model.iteration
+                                                    ?.iteration_name
+                                            }
+                                            )
+                                        </li>
+                                    </ul>
+                                </>
+                            )}
+                            <Badge
+                                variant={data.model.model_status}
+                                className="border-none"
+                                title="Model Status"
+                            >
+                                {modelStatusesMap[data.model.model_status]}
+                            </Badge>
+                        </div>
+                        <span className="hidden">{data.model._id}</span>
+                    </CommandItem>
+                );
+            } else {
+                console.log("No model data");
+                return null;
+            }
+        }
+        case "dataset":
+            if (data.dataset) {
+                return (
+                    <CommandItem
+                        className="flex items-center justify-between w-full cursor-pointer"
+                        key={data.dataset._id}
+                        onSelect={() => {
+                            handleClose();
+                            navigate(
+                                `/datasets?archived=${data.dataset?.archived}${
+                                    searchParams.get("ne") !== "default"
+                                        ? `&ne=${searchParams.get("ne")}`
+                                        : ""
+                                }#${data.dataset?._id}`
+                            );
+                        }}
+                    >
+                        <div
+                            className="flex items-center mr-3"
+                            key={data.dataset._id}
+                        >
+                            <Database className="flex-shrink-0 mr-2" />{" "}
+                            {data.dataset.dataset_name}
+                        </div>
+                        <div className="flex items-center gap-x-1">
+                            <Badge
+                                variant="mlops"
+                                className="border-none h-[20px] px-1 bg-[#279EFF] gap-x-[1px]"
+                                title="Number of Connected Iterations"
+                            >
+                                <GoIterations
+                                    className="flex-shrink-0"
+                                    style={{ width: "12px", heigth: "12px" }}
+                                />
+                                <span>
+                                    {
+                                        Object.getOwnPropertyNames(
+                                            data.dataset.linked_iterations
+                                        ).length
+                                    }
+                                </span>
+                            </Badge>
+                            {data.dataset.version && data.dataset.version !== '' && (
+                                <Badge
+                                    variant="not_started"
+                                    className="border-none"
+                                    title="Dataset Version"
+                                >
+                                    {data.dataset.version}
+                                </Badge>
+                            )}
+                            {data.dataset.archived && (
+                                <Badge
+                                    variant="archived"
+                                    className="border-none"
+                                    title="Dataset is archived"
+                                >
+                                    Archived
+                                </Badge>
+                            )}
+                        </div>
+                        <span className="hidden">{data.dataset._id}</span>
+                    </CommandItem>
+                );
+            } else {
+                console.log("No dataset data");
                 return null;
             }
         default:

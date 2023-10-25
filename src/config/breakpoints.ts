@@ -11,3 +11,10 @@ export const breakpointsMasonry = {
     [breakpoints.lg]: 2,
     [breakpoints.md]: 1,
 }
+
+export const breakpointsMasonryDatasets = {
+    default: 2,
+    [breakpoints.xl]: 2,
+    [breakpoints.lg]: 2,
+    [breakpoints.md]: 1,
+}

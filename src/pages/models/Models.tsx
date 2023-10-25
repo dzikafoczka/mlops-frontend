@@ -25,18 +25,18 @@ import { DataArchive, Monitoring } from "@/components/icons";
 /**
  * Import components
  */
-import ProjectNoActive from "@/components/projects/project-messages/project-no-active";
-import ProjectNoResults from "@/components/projects/project-messages/project-no-results";
 import Breadcrumb from "@/components/breadcrumb";
 import PageHeader from "@/components/page-header";
 import Tabs from "@/components/tabs/tabs";
 import TabItem from "@/components/tabs/tab-item";
-import ProjectNoArchive from "@/components/projects/project-messages/project-no-archive";
 import { ModelStatus } from "@/types/types";
 import ModelCard from "@/components/models/model-card";
 import ModelPanel from "./models-panel/models-panel";
 import ModelPanelSkeleton from "./models-panel/models-panel-skeleton";
 import ModelCardSkeleton from "@/components/models/model-card-skeleton";
+import ModelNoActiveOrIdle from "@/components/models/model-messages/model-no-active-or-idle";
+import ModelNoArchive from "@/components/models/model-messages/model-no-archive";
+import ModelNoResults from "@/components/models/model-messages/model-no-results";
 
 /**
  * Define models data state interface
@@ -108,14 +108,14 @@ const Models = () => {
                 includeScore: true,
                 minMatchCharLength: 1,
                 threshold: 0.25,
-                keys: ["model_name", "model_status", "model_description"],
+                keys: ["model_name", "model_status", "model_description", "iteration.iteration_name"],
             });
 
             const fuseSearchActive = new Fuse(activeOrIdleModels, {
                 includeScore: true,
                 minMatchCharLength: 1,
                 threshold: 0.25,
-                keys: ["model_name", "model_status", "model_description"],
+                keys: ["model_name", "model_status", "model_description", "iteration.iteration_name"],
             });
 
             debounceSearch === ""
@@ -194,8 +194,6 @@ const Models = () => {
             0
         );
         const activeOrIdleModels = modelsInDatabase - archivedModels;
-        
-        console.log(models);
 
         if (
             !isArchived &&
@@ -209,7 +207,7 @@ const Models = () => {
                         setSortBy={setSortBy}
                         disabled={true}
                     />
-                    <ProjectNoActive />
+                    <ModelNoActiveOrIdle />
                 </>
             );
         }
@@ -222,7 +220,7 @@ const Models = () => {
                         setSortBy={setSortBy}
                         disabled={true}
                     />
-                    <ProjectNoArchive />
+                    <ModelNoArchive />
                 </>
             );
         }
@@ -244,7 +242,7 @@ const Models = () => {
                         setQuery={setQuery}
                         setSortBy={setSortBy}
                     />
-                    <ProjectNoResults />
+                    <ModelNoResults />
                 </>
             );
         }

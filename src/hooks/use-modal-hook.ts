@@ -5,6 +5,7 @@ import { Experiment } from "@/types/experiment";
 import { Iteration } from "@/types/iteration";
 import { Keyable } from "@/types/types";
 import { Model } from "@/types/model";
+import { Dataset } from "@/types/dataset";
 
 export type ModalType =
     | "createProject"
@@ -17,6 +18,11 @@ export type ModalType =
     | "deleteExperiment"
     | "editIteration"
     | "deleteIterations"
+    | "createDataset"
+    | "editDataset"
+    | "deleteDataset"
+    | "archiveDataset"
+    | "restoreDataset"
     | "createEmptyModel"
     | "createModelFromIteration"
     | "editModel"
@@ -36,6 +42,7 @@ interface ModalData {
     iteration?: Iteration;
     deleteIterations?: DeleteIterations;
     model?: Model;
+    dataset?: Dataset;
 }
 
 interface ModalStore {

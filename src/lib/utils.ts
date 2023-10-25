@@ -1,3 +1,4 @@
+import { Dataset } from "@/types/dataset";
 import { Iteration } from "@/types/iteration";
 import { Model } from "@/types/model";
 import { Project } from "@/types/project";
@@ -35,6 +36,41 @@ export const sortProjectComparator = (
             if (p1.pinned && !p2.pinned) return -1;
             if (!p1.pinned && p2.pinned) return 1;
             return -1 * p1.title.localeCompare(p2.title);
+        case "UDESC":
+            if (p1.pinned && !p2.pinned) return -1;
+            if (!p1.pinned && p2.pinned) return 1;
+            return p1.updated_at < p2.updated_at ? 1 : -1;
+        case "UASC":
+            if (p1.pinned && !p2.pinned) return -1;
+            if (!p1.pinned && p2.pinned) return 1;
+            return p1.updated_at > p2.updated_at ? 1 : -1;
+        case "CDESC":
+            if (p1.pinned && !p2.pinned) return -1;
+            if (!p1.pinned && p2.pinned) return 1;
+            return p1.created_at < p2.created_at ? 1 : -1;
+        case "CASC":
+            if (p1.pinned && !p2.pinned) return -1;
+            if (!p1.pinned && p2.pinned) return 1;
+            return p1.created_at > p2.created_at ? 1 : -1;
+        default:
+            return 0;
+    }
+};
+
+export const sortDatasetComparator = (
+    p1: Dataset,
+    p2: Dataset,
+    method: string
+) => {
+    switch (method) {
+        case "AZ":
+            if (p1.pinned && !p2.pinned) return -1;
+            if (!p1.pinned && p2.pinned) return 1;
+            return p1.dataset_name.localeCompare(p2.dataset_name);
+        case "ZA":
+            if (p1.pinned && !p2.pinned) return -1;
+            if (!p1.pinned && p2.pinned) return 1;
+            return -1 * p1.dataset_name.localeCompare(p2.dataset_name);
         case "UDESC":
             if (p1.pinned && !p2.pinned) return -1;
             if (!p1.pinned && p2.pinned) return 1;

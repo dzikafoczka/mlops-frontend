@@ -1,4 +1,4 @@
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { PinFilled } from "@/components/icons";
 
@@ -15,6 +15,8 @@ const ProjectCardHeader = ({ project, setLoading }: ProjectCardProps) => {
     const [searchParams, setSearchParams] = useSearchParams({
         ne: "default",
     });
+
+    const navigate = useNavigate();
 
     return (
         <div className="flex items-center justify-between mb-2 font-semibold">

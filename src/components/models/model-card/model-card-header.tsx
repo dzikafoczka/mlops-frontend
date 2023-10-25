@@ -24,7 +24,7 @@ const ModelCardHeader = ({ model, setLoading }: ModelCardProps) => {
                     </div>
                 )}{" "}
                 <a
-                    href={`/models/${model._id}${
+                    href={`/models/${model._id}/monitoring${
                         searchParams.get("ne") !== "default"
                             ? `?ne=${searchParams.get("ne")}`
                             : ""

@@ -5,6 +5,7 @@ import { Experiment } from "@/types/experiment";
 import { Iteration } from "@/types/iteration";
 import { Keyable } from "@/types/types";
 import { Model } from "@/types/model";
+import { Dataset } from "@/types/dataset";
 
 interface DataStore {
     projects: Project[] | null;
@@ -20,7 +21,7 @@ interface DataStore {
         experiment_id: string,
         experiment: Experiment
     ) => void;
-    
+
     updateIteration: (
         project_id: string,
         experiment_id: string,
@@ -29,13 +30,23 @@ interface DataStore {
     ) => void;
     deleteIterations: (project_id: string, iterationsToDelete: Keyable) => void;
 
+    datasets: Dataset[] | null;
+    setDatasetsData: (data: Dataset[]) => void;
+    addDataset: (dataset: Dataset) => void;
+    updateDataset: (dataset_id: string, dataset: Dataset) => void;
+    deleteDataset: (dataset_id: string) => void;
+
     models: Model[] | null;
     setModelsData: (data: Model[]) => void;
     addModel: (model: Model) => void;
     deleteModel: (model_id: string) => void;
     updateModel: (model_id: string, model: Model) => void;
 
-    setAll: (projectData: Project[], modelData: Model[]) => void;
+    setAll: (
+        projectData: Project[],
+        modelData: Model[],
+        datasetData: Dataset[]
+    ) => void;
 }
 
 export const useData = create<DataStore>((set) => ({
@@ -75,6 +86,7 @@ export const useData = create<DataStore>((set) => ({
             }
             return { projects: null };
         }),
+
     addExperiment: (project_id: string, experiment: Experiment) => {
         set((state) => {
             if (state.projects) {
@@ -137,6 +149,7 @@ export const useData = create<DataStore>((set) => ({
             return { projects: null };
         });
     },
+
     updateIteration: (
         project_id: string,
         experiment_id: string,
@@ -220,10 +233,56 @@ export const useData = create<DataStore>((set) => ({
             return { projects: null };
         });
     },
+
+    datasets: null,
+    setDatasetsData: (data: Dataset[]) => set({ datasets: data }),
+    addDataset: (dataset: Dataset) =>
+        set((state) => {
+            if (state.datasets) {
+                return { datasets: [...state.datasets, dataset] };
+            }
+            return { datasets: null };
+        }),
+    updateDataset: (dataset_id: string, dataset: Dataset) =>
+        set((state) => {
+            if (state.datasets) {
+                const index = state.datasets.findIndex(
+                    (dataset) => dataset._id === dataset_id
+                );
+
+                if (index === -1) return state;
+
+                state.datasets[index] = dataset;
+                return { datasets: [...state.datasets] };
+            }
+            return { datasets: null };
+        }),
+    deleteDataset: (dataset_id: string) =>
+        set((state) => {
+            if (state.datasets) {
+                return {
+                    datasets: [
+                        ...state.datasets.filter(
+                            (dataset) => dataset._id !== dataset_id
+                        ),
+                    ],
+                };
+            }
+            return { datasets: null };
+        }),
+
     models: null,
     setModelsData: (data: Model[]) => set({ models: data }),
-    setAll: (projectData: Project[], modelData: Model[]) =>
-        set({ projects: projectData, models: modelData }),
+    setAll: (
+        projectData: Project[],
+        modelData: Model[],
+        datasetData: Dataset[]
+    ) =>
+        set({
+            projects: projectData,
+            models: modelData,
+            datasets: datasetData,
+        }),
     addModel: (model: Model) => {
         set((state) => {
             if (state.models) {

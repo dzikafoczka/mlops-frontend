@@ -25,7 +25,7 @@ const SidebarNavItem = ({
     expandedMd,
     type,
 }: SidebarNavItemProps) => {
-    const [searchParams, setSearchParams] = useSearchParams({
+    const [searchParams] = useSearchParams({
         ne: "default",
     });
 

@@ -5,6 +5,7 @@ import { lorem, numberBetween } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 
 import { ModelStatus } from "@/types/types";
+import moment from "moment";
 
 const ModelCardSkeleton = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -30,7 +31,7 @@ const ModelCardSkeleton = () => {
                     </Skeleton>
                 )}
                 {isArchived && (
-                    <Skeleton className="text-xs py-[2px] px-[10px] rounded ml-2">
+                    <Skeleton className="text-xs py-[2px] px-[10px] rounded">
                         Archived
                     </Skeleton>
                 )}
@@ -42,6 +43,21 @@ const ModelCardSkeleton = () => {
                 <Skeleton className="flex-shrink-0 w-5 h-5 mr-1 text-mlops-secondary-tx dark:text-[#D5D5D5]" />
                 <span className="text-sm font-semibold">
                     <Skeleton>Based on model from example iteration.</Skeleton>
+                </span>
+            </div>
+            <div className="flex items-center mb-2">
+                <Skeleton className="flex-shrink-0 w-5 h-5 mr-1 text-mlops-secondary-tx dark:text-[#D5D5D5]" />
+                <span className="text-sm font-semibold">
+                    <Skeleton>10 historical iterations.</Skeleton>
+                </span>
+            </div>
+            <div className="flex items-center mb-2">
+                <Skeleton className="flex-shrink-0 w-5 h-5 mr-1 text-mlops-secondary-tx dark:text-[#D5D5D5]" />
+                <span className="text-sm font-semibold">
+                    <Skeleton>
+                        Last prediction on{" "}
+                        {moment(Date.now()).format("DD.MM.YYYY, HH:mm")}
+                    </Skeleton>
                 </span>
             </div>
         </div>

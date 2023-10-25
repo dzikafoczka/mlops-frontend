@@ -22,10 +22,10 @@ const ExperimentList = ({
     handleCheckboxLabelClick,
 }: ExperimentListProps) => {
     const [searchParams, setSearchParams] = useSearchParams({
-        el: "false",
+        el: "true",
     });
 
-    const isCollapsed = searchParams.get("el") === "true";
+    const isVisible = searchParams.get("el") === "true";
 
     /**
      * State for storing search query
@@ -86,7 +86,7 @@ const ExperimentList = ({
         <div
             className={cn(
                 "lg:w-[300px] w-full flex-shrink-0",
-                isCollapsed && "hidden"
+                !isVisible && "hidden"
             )}
         >
             <ExperimentsListHeader projectData={projectData} />

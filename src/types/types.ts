@@ -1,3 +1,4 @@
+import { Dataset } from "./dataset";
 import { Model } from "./model";
 import { Project } from "./project";
 
@@ -7,6 +8,7 @@ export interface ProjectData {
     status: "completed" | "in_progress" | "not_started";
     experiments_count: number;
     iterations_count: number;
+    archived: boolean;
 }
 
 export interface ExperimentData {
@@ -28,6 +30,7 @@ export interface IterationData {
 
 export interface IconProps {
     className?: string;
+    style?: React.CSSProperties;
 }
 
 export interface Keyable {
@@ -43,6 +46,13 @@ export interface ProjectQuickAction {
 
 export interface ModelQuickAction {
     model: Model;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    ItemType: any;
+    SubItemType?: any;
+}
+
+export interface DatasetQuickAction {
+    dataset: Dataset;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     ItemType: any;
     SubItemType?: any;

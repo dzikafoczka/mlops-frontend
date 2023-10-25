@@ -139,7 +139,7 @@ const CreateEmptyModelModal = () => {
                             render={({ field }) => (
                                 <FormItem className="px-4 mb-2">
                                     <FormLabel className="font-semibold text-md">
-                                        Model title
+                                        Model name
                                     </FormLabel>
                                     <FormControl>
                                         <Input

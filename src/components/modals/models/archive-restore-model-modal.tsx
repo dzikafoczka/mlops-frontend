@@ -68,7 +68,7 @@ const ArchiveRestoreModelModal = () => {
                 );
                 createToast({
                     id: "archive-restore-model",
-                    message: `Project ${data.model?.model_name} ${
+                    message: `Model ${data.model?.model_name} ${
                         type === "archiveModel" ? "archived" : "restored"
                     } successfully!`,
                     type: "success",

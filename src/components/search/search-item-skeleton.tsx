@@ -2,7 +2,7 @@ import { lorem, numberBetween } from "@/lib/utils";
 
 import { statuses } from "@/config/maping";
 
-import { CommandItem } from "@/components/ui/command";
+import { CommandItem } from "@/components/ui/command-searchbar";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const SearchItemSkeleton = () => {

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 
@@ -20,8 +20,7 @@ import SearchDialog from "@/components/search/search-dialog";
 import Kbd from "@/components/kbd";
 
 const NavigationTopbar = () => {
-
-    const [searchParams, setSearchParams] = useSearchParams({
+    const [searchParams] = useSearchParams({
         ne: "default",
     });
 
@@ -48,20 +47,25 @@ const NavigationTopbar = () => {
                 param = "expanded-md";
             }
         } else {
-            return;
+            param = "default";
         }
 
-        setSearchParams(
-            (prev) => {
-                prev.set("ne", param);
-                return prev;
+        let newUrlParams = new URLSearchParams(location.search);
+        newUrlParams.set("ne", param);
+
+        navigate(
+            {
+                pathname: location.pathname,
+                search: newUrlParams.toString(),
             },
             { replace: true }
         );
     };
 
+    const navigate = useNavigate();
+
     useEffect(() => {
-        const onKeyDown = (event: KeyboardEvent) => {
+        const onKeyDownSB = (event: KeyboardEvent) => {
             if (event.key === "[") {
                 event.preventDefault();
                 if (event.repeat) {
@@ -95,20 +99,23 @@ const NavigationTopbar = () => {
                     param = "default";
                 }
 
-                setSearchParams(
-                    (prev) => {
-                        prev.set("ne", param);
-                        return prev;
+                let newUrlParams = new URLSearchParams(location.search);
+                newUrlParams.set("ne", param);
+
+                navigate(
+                    {
+                        pathname: location.pathname,
+                        search: newUrlParams.toString(),
                     },
                     { replace: true }
                 );
             }
         };
 
-        document.addEventListener("keydown", onKeyDown);
+        document.addEventListener("keydown", onKeyDownSB);
 
         return () => {
-            document.removeEventListener("keydown", onKeyDown);
+            document.removeEventListener("keydown", onKeyDownSB);
         };
     }, [isDefault, isCollapsedLg, isExpandedMd]);
 

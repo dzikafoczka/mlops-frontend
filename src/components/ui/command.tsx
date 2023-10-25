@@ -1,9 +1,7 @@
 import * as React from "react";
 import { DialogProps } from "@radix-ui/react-dialog";
 import { Command as CommandPrimitive } from "cmdk";
-import { Search, X } from "lucide-react";
-
-import { DialogClose } from "@radix-ui/react-dialog";
+import { Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -16,7 +14,7 @@ const Command = React.forwardRef<
         shouldFilter={false}
         ref={ref}
         className={cn(
-            "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground bg-mlops-nav-bg dark:bg-mlops-nav-bg-dark",
+            "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground z-[9999]",
             className
         )}
         {...props}
@@ -24,20 +22,12 @@ const Command = React.forwardRef<
 ));
 Command.displayName = CommandPrimitive.displayName;
 
-interface CommandDialogProps extends DialogProps {
-    className?: string;
-}
+interface CommandDialogProps extends DialogProps {}
 
-const CommandDialog = ({
-    children,
-    className,
-    ...props
-}: CommandDialogProps) => {
+const CommandDialog = ({ children, ...props }: CommandDialogProps) => {
     return (
         <Dialog {...props}>
-            <DialogContent
-                className={cn("p-0 overflow-hidden shadow-lg", className)}
-            >
+            <DialogContent className="p-0 overflow-hidden shadow-lg">
                 <Command className="[&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-group]]:px-2 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5">
                     {children}
                 </Command>
@@ -50,10 +40,7 @@ const CommandInput = React.forwardRef<
     React.ElementRef<typeof CommandPrimitive.Input>,
     React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input>
 >(({ className, ...props }, ref) => (
-    <div
-        className="flex items-center px-3 border-b border-gray-300 dark:border-gray-700"
-        cmdk-input-wrapper=""
-    >
+    <div className="flex items-center px-3 border-b" cmdk-input-wrapper="">
         <Search className="w-4 h-4 mr-2 opacity-50 shrink-0" />
         <CommandPrimitive.Input
             ref={ref}
@@ -63,10 +50,6 @@ const CommandInput = React.forwardRef<
             )}
             {...props}
         />
-        <DialogClose className="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-0 focus:ring-offset-0 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-        <X className="w-4 h-4" />
-        <span className="sr-only">Close</span>
-      </DialogClose>
     </div>
 ));
 
@@ -79,7 +62,7 @@ const CommandList = React.forwardRef<
     <CommandPrimitive.List
         ref={ref}
         className={cn(
-            "max-h-[calc(60vh)] overflow-y-auto overflow-x-hidden",
+            "max-h-[300px] overflow-y-auto overflow-x-hidden",
             className
         )}
         {...props}
@@ -108,7 +91,7 @@ const CommandGroup = React.forwardRef<
     <CommandPrimitive.Group
         ref={ref}
         className={cn(
-            "overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-sm [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground",
+            "overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground",
             className
         )}
         {...props}
@@ -136,7 +119,7 @@ const CommandItem = React.forwardRef<
     <CommandPrimitive.Item
         ref={ref}
         className={cn(
-            "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:dark:bg-mlops-action-hover-bg-dark aria-selected:text-accent-foreground aria-selected:bg-mlops-action-hover-bg data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+            "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
             className
         )}
         {...props}

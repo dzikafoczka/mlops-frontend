@@ -23,13 +23,7 @@ import { ModelInfo } from "./grid-base-columns-definitions/model-info-columns";
 import { IterationInfo } from "./grid-base-columns-definitions/iteration-info-columns";
 import { useGrid } from "@/hooks/use-grid-hook";
 import { Button } from "@/components/ui/button";
-import {
-    Delete,
-    Edit,
-    Loading,
-    Monitoring,
-    SearchOff,
-} from "@/components/icons";
+import { Delete, Edit, Loading, Monitoring } from "@/components/icons";
 import Download from "@/components/icons/download";
 import ClearSorting from "@/components/icons/clear-sorting";
 import ClearFilter from "@/components/icons/clear-filter";
@@ -51,6 +45,8 @@ import { IRowNode } from "ag-grid-community";
 import moment from "moment";
 import { useModal } from "@/hooks/use-modal-hook";
 import { Iteration } from "@/types/iteration";
+import NoIterationsInfo from "./no-iterations-info";
+import { useNavigate } from "react-router-dom";
 
 interface IterationsContainerProps {
     projectData: Project;
@@ -153,7 +149,7 @@ const IterationsContainer = ({
         ];
 
         grid.setAll(rowData, defaultColDef, gridColumnsAll);
-    }, [projectData, activeExperiments]);
+    }, [projectData, activeExperiments, location.search]);
 
     const deleteButton = useRef() as MutableRefObject<HTMLButtonElement>;
     const editButton = useRef() as MutableRefObject<HTMLButtonElement>;
@@ -367,6 +363,55 @@ const IterationsContainer = ({
         }
     }, []);
 
+    const handleCreateModel = useCallback(() => {
+        if (!gridRef.current) return;
+
+        let selectedRows = gridRef.current.api.getSelectedRows() as Iteration[];
+
+        if (selectedRows.length === 1) {
+            document.body.style.overflow = "hidden";
+            onOpen("createModelFromIteration", { iteration: selectedRows[0] });
+        }
+    }, []);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const onKeyDownEL = (event: KeyboardEvent) => {
+            if (event.key === "]") {
+                event.preventDefault();
+
+                if (event.repeat) {
+                    return;
+                }
+
+                let newUrlParams = new URLSearchParams(location.search);
+
+                newUrlParams.set(
+                    "el",
+                    newUrlParams.get("el") &&
+                        newUrlParams.get("el") === "false"
+                        ? "true"
+                        : "false"
+                );
+
+                navigate(
+                    {
+                        pathname: location.pathname,
+                        search: newUrlParams.toString(),
+                    },
+                    { replace: true }
+                );
+            }
+        };
+
+        document.addEventListener("keydown", onKeyDownEL);
+
+        return () => {
+            document.removeEventListener("keydown", onKeyDownEL);
+        };
+    }, []);
+
     return (
         <>
             <div className="flex flex-wrap items-center gap-3">
@@ -488,6 +533,7 @@ const IterationsContainer = ({
                         ref={createModelButton}
                         variant="mlopsGridAction"
                         size="grid"
+                        onClick={handleCreateModel}
                     >
                         <Monitoring className="flex-shrink-0 w-6 h-6 mr-1" />{" "}
                         Create model
@@ -558,9 +604,7 @@ const IterationsContainer = ({
                     rowHeight={25}
                     domLayout={"autoHeight"}
                     onSelectionChanged={onSelectionChanged}
-                    noRowsOverlayComponent={
-                        SearchOff as React.ComponentType<any>
-                    }
+                    noRowsOverlayComponent={NoIterationsInfo}
                     isExternalFilterPresent={isExternalFilterPresent}
                     doesExternalFilterPass={doesExternalFilterPass}
                 />

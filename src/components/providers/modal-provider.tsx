@@ -15,6 +15,11 @@ import DeleteModelModal from "../modals/models/delete-model-modal";
 import CreateEmptyModelModal from "../modals/models/create-empty-model-modal";
 import EditModelModal from "../modals/models/edit-model-modal";
 import ArchiveRestoreModelModal from "../modals/models/archive-restore-model-modal";
+import CreateModelFromIterationModal from "../modals/models/create-model-from-iteration-modal";
+import CreateDatasetModal from "../modals/datasets/create-dataset-modal";
+import EditDatasetModal from "../modals/datasets/edit-dataset-modal";
+import DeleteDatasetModal from "../modals/datasets/delete-dataset-modal";
+import ArchiveRestoreDatasetModal from "../modals/datasets/archive-restore-dataset-modal";
 
 const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -24,12 +29,21 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
             <EditProjectModal />
             <DeleteProjectModal />
             <ArchiveRestoreProjectModal />
+
             <CreateExperimentModal />
             <EditExperimentModal />
             <DeleteExperimentModal />
+
             <EditIterationModal />
             <DeleteIterationsModal />
+
+            <CreateDatasetModal />
+            <EditDatasetModal />
+            <DeleteDatasetModal />
+            <ArchiveRestoreDatasetModal />
+
             <CreateEmptyModelModal />
+            <CreateModelFromIterationModal />
             <DeleteModelModal />
             <EditModelModal />
             <ArchiveRestoreModelModal />

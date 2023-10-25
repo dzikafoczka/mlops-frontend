@@ -91,7 +91,6 @@
 }
 
 @layer components {
-
     .duration-5000 {
         transition-duration: 5000ms;
     }
@@ -115,7 +114,6 @@
     div[data-pc-name="treeselect"][data-pc-section="root"]::before {
         @apply dark:content-[url(/column-dark.svg)] content-[url(/column.svg)] w-5 h-5 ml-2;
     }
-
 }
 
 * {
@@ -140,6 +138,23 @@ html::-webkit-scrollbar-thumb {
 
 /* Handle on hover */
 html::-webkit-scrollbar-thumb:hover {
+    background: #6b85e2ee;
+}
+
+div[role="dialog"]::-webkit-scrollbar {
+    width: 8px;
+}
+
+div[role="dialog"]::-webkit-scrollbar-track {
+    background-color: var(--primary);
+}
+
+div[role="dialog"]::-webkit-scrollbar-thumb {
+    background-color: #6b85e2;
+    border-radius: 4px;
+}
+
+div[role="dialog"]::-webkit-scrollbar-thumb:hover {
     background: #6b85e2ee;
 }
 
@@ -184,5 +199,5 @@ ul[data-pc-section="subgroup"] li button {
 }
 
 .ag-theme-alpine .ag-paging-panel {
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
 }

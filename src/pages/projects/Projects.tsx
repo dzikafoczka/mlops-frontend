@@ -97,11 +97,11 @@ const Projects = () => {
         console.log("useEffect");
         if (data.projects) {
             const archivedProjects = data.projects.filter((project) => {
-                return project.archived === true;
+                return project.archived;
             });
 
             const activeProjects = data.projects.filter((project) => {
-                return project.archived === false;
+                return !project.archived;
             });
 
             const fuseSearchArchived = new Fuse(archivedProjects, {

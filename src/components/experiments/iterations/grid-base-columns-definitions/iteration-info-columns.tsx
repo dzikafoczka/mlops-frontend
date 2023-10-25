@@ -3,11 +3,10 @@ import { IDateFilterParams } from "ag-grid-community";
 import moment from "moment";
 
 export const IterationInfo = (project_id: string) => {
-
     /**
      * Filter comparator for date (created_at) column
      * */
-    const filterDateComparator : IDateFilterParams = {
+    const filterDateComparator: IDateFilterParams = {
         comparator: (filterDate: Date, cellValue: string) => {
             let dateInCell = new Date(cellValue);
             dateInCell = new Date(
@@ -40,15 +39,25 @@ export const IterationInfo = (project_id: string) => {
             pinned: true,
             filter: true,
             cellRenderer: (val: any) => {
+                const url = new URL(window.location.href);
+                const searchParams = new URLSearchParams(url.search);
+                const ne = searchParams.get("ne");
+                // return `/datasets?ne=${ne}#${val.data["dataset"]["id"]}`;
                 return (
-                    <a className="hover:underline text-[#0d6efd]"
+                    <a
+                        className="hover:underline text-[#0d6efd]"
                         href={
                             "/projects/" +
                             project_id +
                             "/experiments/" +
                             val.data["experiment_id"] +
                             "/iterations/" +
-                            val.data["id"]
+                            val.data["id"] +
+                            `${
+                                ne && ne !== "default"
+                                    ? `?ne=${searchParams.get("ne")}`
+                                    : ""
+                            }`
                         }
                     >
                         {val.data["iteration_name"]}
@@ -80,7 +89,7 @@ export const IterationInfo = (project_id: string) => {
         },
         {
             field: "user_name",
-            headerName: "User",
+            headerName: "Run By",
         },
     ];
 };

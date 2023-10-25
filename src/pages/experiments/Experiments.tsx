@@ -13,6 +13,7 @@ import ExperimentHeader from "@/components/experiments/experiments-info/experime
 import ExperimentInfo from "@/components/experiments/experiments-info/experiment-info";
 import { Loading } from "@/components/icons";
 import IterationsContainer from "@/components/experiments/iterations/iterations-container";
+import { AiOutlineExperiment } from "react-icons/ai";
 
 const Experiments = () => {
     console.log("Experiments");
@@ -22,7 +23,6 @@ const Experiments = () => {
     const { project_id } = useParams();
 
     const [searchParams, setSearchParams] = useSearchParams({
-        ne: "default",
         experiments: "",
     });
 
@@ -221,14 +221,38 @@ const Experiments = () => {
                 searchParams.get("ne") !== "default"
                     ? `?ne=${searchParams.get("ne")}`
                     : ""
-            }`,
-            { replace: true }
+            }`
         );
     }
 
     if (projectData === null) {
         return (
-            <div>Loading data ...</div>
+            <>
+                <div className="mb-4">
+                    <PageHeader title="..." />
+                    <Breadcrumb
+                        items={[
+                            {
+                                name: "Projects",
+                                Icon: LayoutDashboard,
+                                href: "/projects",
+                            },
+                            {
+                                name: "...",
+                                Icon: VscProject,
+                            },
+                        ]}
+                    />
+                </div>
+                <div className="flex flex-col items-center justify-center m-32">
+                    <AiOutlineExperiment className="flex-grow-0 flex-shrink-0 w-16 h-16 text-mlops-primary-tx dark:text-mlops-primary-tx-dark" />
+                    <p className="mt-3 mb-1 text-xl font-semibold text-center text-mlops-gray dark:text-zinc-400">
+                        Loading experiments and iterations data ...
+                    </p>
+                    <p className="text-sm text-center">Please, be patient.</p>
+                    <Loading className="w-10 h-10 mt-8 animate-spin text-mlops-primary dark:text-mlops-primary-tx-dark" />
+                </div>
+            </>
         );
     }
 

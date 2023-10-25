@@ -1,4 +1,4 @@
-import { modelStatuesMap } from "@/config/maping";
+import { modelStatusesMap } from "@/config/maping";
 
 import { Badge } from "@/components/ui/badge";
 
@@ -10,7 +10,7 @@ const ModelCardStatus = ({ status }: ModelCardStatusProps) => {
     return (
         <div className="flex items-center mb-3">
             <Badge variant={status} title="Model Status">
-                {modelStatuesMap[status]}
+                {modelStatusesMap[status]}
             </Badge>
         </div>
     );

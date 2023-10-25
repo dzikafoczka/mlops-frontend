@@ -12,7 +12,7 @@ export const statuses = [
     ProjectStatus.FINISHED,
 ];
 
-export const modelStatuesMap = {
+export const modelStatusesMap = {
     active: <p>Active</p>,
     idle: <p>Idle</p>,
     archived: <p>Archived</p>,

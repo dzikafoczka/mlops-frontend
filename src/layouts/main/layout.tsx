@@ -36,10 +36,13 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 const projects = await axios.get(`${url}:${port}/projects/`, {
                     signal: signal,
                 });
+                const datasets = await axios.get(`${url}:${port}/datasets/`, {
+                    signal: signal,
+                });
                 const models = await axios.get(`${url}:${port}/monitored-models/`, {
                     signal: signal,
                 });
-                data.setAll(projects.data, models.data);
+                data.setAll(projects.data, models.data, datasets.data);
             } catch (error: any) {
                 if (!abortController.signal.aborted) {
                     showBoundary(error);

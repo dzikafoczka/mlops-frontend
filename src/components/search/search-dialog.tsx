@@ -14,7 +14,7 @@ import {
     CommandGroup,
     CommandInput,
     CommandList,
-} from "@/components/ui/command";
+} from "@/components/ui/command-searchbar";
 import Kbd from "@/components/kbd";
 import SearchItem from "@/components/search/search-item";
 import { useDebounce } from "@/hooks/use-debounce-hook";
@@ -25,6 +25,8 @@ interface SearchData {
     projects_group: React.ReactNode[];
     experiments_group: React.ReactNode[];
     iterations_group: React.ReactNode[];
+    datasets_group: React.ReactNode[];
+    models_group: React.ReactNode[];
 }
 
 const SearchDialog = () => {
@@ -36,14 +38,15 @@ const SearchDialog = () => {
 
     const [searchData, setSearchData] = useState<SearchData | null>(null);
 
-
     useEffect(() => {
         const filterData = async () => {
-            if (!data.projects) return;
+            if (!data.projects || !data.models || !data.datasets) return;
 
             let projects_group: React.ReactNode[] = [];
             let experiments_group: React.ReactNode[] = [];
             let iterations_group: React.ReactNode[] = [];
+            let datasets_group: React.ReactNode[] = [];
+            let models_group: React.ReactNode[] = [];
 
             let search_data: Keyable[] = [];
 
@@ -78,6 +81,21 @@ const SearchDialog = () => {
                     status: project.status,
                     experiments_count: project.experiments.length,
                     iterations_count: iterations,
+                    archived: project.archived,
+                });
+            });
+
+            data.datasets.forEach((dataset) => {
+                search_data.push({
+                    type: "dataset",
+                    ...dataset,
+                });
+            });
+
+            data.models.forEach((model) => {
+                search_data.push({
+                    type: "model",
+                    ...model,
                 });
             });
 
@@ -91,6 +109,9 @@ const SearchDialog = () => {
                     "project_title",
                     "status",
                     "iteration_name",
+                    "model_name",
+                    "iteration.iteration_name",
+                    "dataset_name",
                 ],
             });
 
@@ -123,6 +144,26 @@ const SearchDialog = () => {
                                       key={item.id}
                                       handleClose={handleClose}
                                       type="iteration"
+                                      data={{ [item.type]: item }}
+                                  />
+                              );
+                              break;
+                          case "model":
+                              models_group.push(
+                                  <SearchItem
+                                      key={item._id}
+                                      handleClose={handleClose}
+                                      type="model"
+                                      data={{ [item.type]: item }}
+                                  />
+                              );
+                              break;
+                          case "dataset":
+                              datasets_group.push(
+                                  <SearchItem
+                                      key={item._id}
+                                      handleClose={handleClose}
+                                      type="dataset"
                                       data={{ [item.type]: item }}
                                   />
                               );
@@ -167,27 +208,59 @@ const SearchDialog = () => {
                                   />
                               );
                               break;
+                          case "model":
+                              models_group.push(
+                                  <SearchItem
+                                      key={results.item._id}
+                                      handleClose={handleClose}
+                                      type="model"
+                                      data={{
+                                          [results.item.type]: results.item,
+                                      }}
+                                  />
+                              );
+                              break;
+                          case "dataset":
+                              datasets_group.push(
+                                  <SearchItem
+                                      key={results.item._id}
+                                      handleClose={handleClose}
+                                      type="dataset"
+                                      data={{
+                                          [results.item.type]: results.item,
+                                      }}
+                                  />
+                              );
+                              break;
                       }
                   });
 
             setSearchData({
                 projects_group: projects_group.slice(
                     0,
-                    Math.min(projects_group.length, 20)
+                    Math.min(projects_group.length, 10)
                 ),
                 experiments_group: experiments_group.slice(
                     0,
-                    Math.min(experiments_group.length, 20)
+                    Math.min(experiments_group.length, 10)
                 ),
                 iterations_group: iterations_group.slice(
                     0,
-                    Math.min(iterations_group.length, 20)
+                    Math.min(iterations_group.length, 10)
+                ),
+                datasets_group: datasets_group.slice(
+                    0,
+                    Math.min(datasets_group.length, 10)
+                ),
+                models_group: models_group.slice(
+                    0,
+                    Math.min(models_group.length, 10)
                 ),
             });
         };
 
         filterData();
-    }, [data.projects, debounceSearch]);
+    }, [data.projects, data.models, data.datasets, debounceSearch]);
 
     useEffect(() => {
         const openSearchDialog = (e: KeyboardEvent) => {
@@ -275,6 +348,20 @@ const SearchDialog = () => {
                         <>
                             <CommandGroup heading="Iterations">
                                 {searchData.iterations_group}
+                            </CommandGroup>
+                        </>
+                    )}
+                    {searchData && searchData.datasets_group.length > 0 && (
+                        <>
+                            <CommandGroup heading="Datasets">
+                                {searchData.datasets_group}
+                            </CommandGroup>
+                        </>
+                    )}
+                    {searchData && searchData.models_group.length > 0 && (
+                        <>
+                            <CommandGroup heading="Models">
+                                {searchData.models_group}
                             </CommandGroup>
                         </>
                     )}

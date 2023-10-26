@@ -17,6 +17,7 @@ import Models from "./pages/models/Models";
 import { Tailwind } from "./components/treeselect/treeselect-styles";
 import Monitoring from "./pages/monitoring/Monitoring";
 import Datasets from "./pages/datasets/Datasets";
+import SingleIteration from "./pages/iterations/SingleIteration";
 
 function App() {
     return (
@@ -51,6 +52,10 @@ function App() {
                                     <Route
                                         path="/models/:model_id/monitoring"
                                         element={<Monitoring />}
+                                    />
+                                    <Route 
+                                        path="/projects/:project_id/experiments/:experiment_id/iterations/:iteration_id"
+                                        element={<SingleIteration />}
                                     />
                                 </Routes>
                                 <Toast />

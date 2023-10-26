@@ -360,6 +360,8 @@ const IterationsContainer = ({
                     iterationsToDelete: iterationsDataGrouped,
                 },
             });
+
+            console.log(iterationsDataGrouped);
         }
     }, []);
 

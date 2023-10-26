@@ -1,4 +1,5 @@
 import { Dataset } from "./dataset";
+import { Iteration } from "./iteration";
 import { Model } from "./model";
 import { Project } from "./project";
 
@@ -39,6 +40,13 @@ export interface Keyable {
 
 export interface ProjectQuickAction {
     project: Project;
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    ItemType: any;
+    SubItemType?: any;
+}
+
+export interface IterationQuickAction {
+    iteration: Iteration;
     setLoading: React.Dispatch<React.SetStateAction<boolean>>;
     ItemType: any;
     SubItemType?: any;

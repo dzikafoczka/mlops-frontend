@@ -38,6 +38,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import SectionSeparator from "@/components/navigation/section-separator";
+import { Experiment } from "@/types/experiment";
 
 const formSchema = z.object({
     name: z
@@ -98,7 +99,11 @@ const EditExperimentModal = () => {
                 dataStore.updateExperiment(
                     data.project?._id as string,
                     res.data.id,
-                    res.data
+                    {
+                        ...data.experiment,
+                        name: res.data.name,
+                        description: res.data.description,
+                    } as Experiment
                 );
 
                 onClose();

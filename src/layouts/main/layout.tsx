@@ -67,9 +67,9 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
                 <NavigationSidebar />
                 <main
                     className={cn(
-                        "w-full p-5 ml-0 sm:ml-[64px] lg:ml-[280px] min-h-[calc(100vh-56px)]",
-                        isCollapsedLg && "lg:ml-[64px]",
-                        isExpandedMd && "sm:ml-[64px]"
+                        "w-full p-5 ml-0 sm:pl-[84px] lg:pl-[300px] min-h-[calc(100vh-56px)]",
+                        isCollapsedLg && "lg:pl-[84px]",
+                        isExpandedMd && "sm:pl-[84px]"
                     )}
                 >
                     {children}

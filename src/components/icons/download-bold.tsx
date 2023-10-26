@@ -1,6 +1,6 @@
 import { IconProps } from "@/types/types";
 
-const Download = ({ className }: IconProps) => {
+const DownloadBold = ({ className }: IconProps) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -15,4 +15,4 @@ const Download = ({ className }: IconProps) => {
     );
 };
 
-export default Download;
+export default DownloadBold;

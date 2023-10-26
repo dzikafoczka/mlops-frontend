@@ -5,6 +5,7 @@ interface BreadcrumbItem {
     name: string;
     href?: string;
     Icon: any;
+    hasParams?: boolean;
 }
 
 interface BreadcrumbProps {
@@ -37,7 +38,7 @@ const Breadcrumb = ({ items }: BreadcrumbProps) => {
                         className="flex items-center text-sm font-semibold hover:text-[#51678f] hover:dark:dark:text-zinc-300 transition duration-300 mr-[2px]"
                         href={`${item.href}${
                             searchParams.get("ne") !== "default"
-                                ? `?ne=${searchParams.get("ne")}`
+                                ? `${item.hasParams ? '&' : '?'}ne=${searchParams.get("ne")}`
                                 : ""
                         }`}
                     >
